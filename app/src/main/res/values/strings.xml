@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">MoreliaTalk</string>
+    <string name="auth">Authorization</string>
+    <string name="auth_hint">Please enter your username and password</string>
+    <string name="servername">Server</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="cancel">Cancel</string>
+    <string name="default_server">ws://77.50.90.123:8000/ws</string>
+    <string name="default_username">Testuser</string>
+    <string name="default_password">123456</string>
+    <string name="auth_status_true">Authorization successfully</string>
+    <string name="auth_status_false">Wrong username or password</string>
+    <string name="auth_status_newreg">New account created</string>
+    <string name="auth_status_unknown">Unknown server answer received</string>
+    <string name="socket_close">"Connection closed with code: "</string>
+    <string name="socket_error">Connection error:</string>
+</resources>
