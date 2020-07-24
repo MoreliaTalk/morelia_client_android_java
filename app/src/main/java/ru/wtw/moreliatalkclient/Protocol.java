@@ -1,5 +1,11 @@
 package ru.wtw.moreliatalkclient;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import static java.util.TimeZone.LONG;
+
 @SuppressWarnings("unused")
 public class Protocol {
 
@@ -26,6 +32,21 @@ public class Protocol {
         return status;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public String getTime() {
+        long javatime = Math.round(Double.parseDouble(timestamp) * 1000);
+        Date time = new Date(javatime);
+        DateFormat df = new SimpleDateFormat("HH:mm:ss");
+        return df.format(time);
+    }
+
     public void setStatus(String status) { this.status = status; }
 
     public void setTimestamp(String timestamp) { this.timestamp = timestamp; }
@@ -46,12 +67,5 @@ public class Protocol {
         this.password = password;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
 }
 

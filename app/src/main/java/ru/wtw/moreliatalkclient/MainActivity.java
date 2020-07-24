@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
             network.setUsername(extras.getString("username"));
             network.setPassword(extras.getString("password"));
             network.setServername(extras.getString("servername"));
+            network.setReconnect(extras.getBoolean("reconnect"));
+            network.setShowJSON(extras.getBoolean("outjson"));
             network.connect();
         }
 
