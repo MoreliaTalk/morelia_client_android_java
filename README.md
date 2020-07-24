@@ -1,7 +1,6 @@
 # MoreliaTalk Client - мессенджер (клиент) на платформе Android #
 
-![alt text](screenshots/auth.png "Скриншот окна авторизации")
-![alt text](screenshots/chat.png "Вид основного чата")
+![alt text](screenshots/auth.png "Скриншот окна авторизации и вид основного чата")
 
 ## В репозитории 2 бранча ##
 
