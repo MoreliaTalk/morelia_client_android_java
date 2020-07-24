@@ -10,7 +10,7 @@
 
 ## В разработке применяется ##
 
-[Android Studio 4](https://developer.android.com/studio) - интегрированная среда разработки на языке Java
+[Android Studio](https://developer.android.com/studio) - интегрированная среда разработки на языке Java
 
 [Java WebSockets](https://github.com/TooTallNate/Java-WebSocket) - библиотека реализующая функционал клиента WebSocket
 
