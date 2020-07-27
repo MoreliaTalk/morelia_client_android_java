@@ -37,6 +37,7 @@ public class LoginActivity extends Activity {
             }
             ((Switch)findViewById(R.id.switchReconnect)).setChecked(settings.getBoolean("reconnect", false));
             ((Switch)findViewById(R.id.switchJSON)).setChecked(settings.getBoolean("outjson", false));
+            ((Switch)findViewById(R.id.switchNewAPI)).setChecked(settings.getBoolean("newapi", false));
 
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -46,11 +47,13 @@ public class LoginActivity extends Activity {
                     EditText editPassword = findViewById(R.id.editPassword);
                     Switch switchReconnect = findViewById(R.id.switchReconnect);
                     Switch switchJSON = findViewById(R.id.switchJSON);
+                    Switch switchNewAPI = findViewById(R.id.switchNewAPI);
                     String username = editUsername.getText().toString();
                     String password = editPassword.getText().toString();
                     String servername = editServername.getText().toString();
                     boolean reconnect = switchReconnect.isChecked();
                     boolean outJSON = switchJSON.isChecked();
+                    boolean newAPI = switchNewAPI.isChecked();
                     if (servername.isEmpty() || username.isEmpty() || password.isEmpty()) {
                         Log.e("SERVER", "Must be filled");
                     } else {
@@ -60,12 +63,14 @@ public class LoginActivity extends Activity {
                         intent.putExtra("servername", servername);
                         intent.putExtra("reconnect", reconnect);
                         intent.putExtra("outjson", outJSON);
+                        intent.putExtra("newapi", newAPI);
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString("servername", servername);
                         editor.putString("username", username);
                         editor.putString("password", password);
                         editor.putBoolean("reconnect", reconnect);
                         editor.putBoolean("outjson", outJSON);
+                        editor.putBoolean("newapi", newAPI);
                         editor.apply();
                         startActivity(intent);
                     }

@@ -17,7 +17,6 @@ import org.java_websocket.handshake.ServerHandshake;
 
 import com.google.gson.Gson;
 
-
 public class Network {
     private URI socketURI;
     private WebSocketClient socket;
@@ -29,6 +28,7 @@ public class Network {
     private String servername;
     private boolean reconnect;
     private boolean showJSON;
+    private boolean useNewAPI;
 
     private boolean isConnected;
 
@@ -52,6 +52,8 @@ public class Network {
     public void setReconnect(boolean reconnect) { this.reconnect = reconnect; }
 
     public void setShowJSON(boolean showJSON) { this.showJSON = showJSON; }
+
+    public void setUseNewAPI(boolean useNewAPI) { this.useNewAPI = useNewAPI; }
 
     public boolean isConnected() {
         return isConnected;
@@ -80,10 +82,13 @@ public class Network {
         if (socket == null) socket = new WebSocketClient(socketURI) {
 
             @Override
-
             public void onOpen(ServerHandshake handshakedata) {
                 isConnected = true;
-                sendAuth();
+                if (useNewAPI) {
+                    sendReg();
+                } else {
+                    sendAuth();
+                }
                 Log.i("SERVER", "Connected");
             }
 
@@ -156,6 +161,22 @@ public class Network {
                 });
             }
         });
+    }
+
+    public void sendReg () {
+        Gson gson = new Gson();
+        Protocol protocol = new Protocol();
+        protocol.setMode("reg");
+        protocol.setUsername(username);
+        protocol.setPassword(password);
+        String json = "{ \"type\": \"register_user\", \"data\": { \"user\": { \"password\": \"" + password+
+                "\", \"login\": \""+username+"\", \"email\": \"qwwer@qwer.ru\", \"username\": \"User1\" }, "+
+                "\"meta\": \"None\" }, \"jsonapi\": { \"version\": \"1.0\" }, \"meta\": \"None\" }";
+        if (socket != null && socket.isOpen()) {
+            if (showJSON) outChat("Sending: "+json);
+            Log.i("SERVER","Send reg");
+            socket.send(json);
+        }
     }
 
     public void sendAuth () {

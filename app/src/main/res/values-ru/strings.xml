@@ -19,5 +19,6 @@
     <string name="switch_reconnect">Автоматически переподключаться</string>
     <string name="switch_json_output">Отображать JSON вместо чата</string>
     <string name="reconnecting">Повторное подключение</string>
+    <string name="switch_new_api">Использовать новое API</string>
 
 </resources>

@@ -19,4 +19,5 @@
     <string name="switch_reconnect">"Auto reconnect "</string>
     <string name="switch_json_output">Show JSON instead of chat</string>
     <string name="reconnecting">Reconnecring to server</string>
+    <string name="switch_new_api">Use new develop API</string>
 </resources>

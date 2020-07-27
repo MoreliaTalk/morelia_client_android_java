@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
             network.setServername(extras.getString("servername"));
             network.setReconnect(extras.getBoolean("reconnect"));
             network.setShowJSON(extras.getBoolean("outjson"));
+            network.setUseNewAPI(extras.getBoolean("newapi"));
             network.connect();
         }
 
