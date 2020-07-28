@@ -4,10 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static java.util.TimeZone.LONG;
-
-@SuppressWarnings("unused")
-public class Protocol {
+public class LegacyProtocol {
 
     private String mode;
     private String username;
