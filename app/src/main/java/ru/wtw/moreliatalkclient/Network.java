@@ -93,10 +93,17 @@ public class Network {
 
             @Override
             public void onMessage(String message) {
+                LegacyProtocol legacyProtocol = new Gson().fromJson(message, LegacyProtocol.class);
+                Protocol protocol = new Gson().fromJson(message, Protocol.class);
                 if (showJSON) {
-                    outChat("Received: "+message);
+                    if (legacyProtocol.getMode() != null) {
+                        outChat("Received old protocol: "+message);
+                    } else if (protocol.getType() != null) {
+                        outChat("Received new protocol: "+message);
+                    } else {
+                        outChat("Received unknown protocol: "+message);
+                    }
                 } else {
-                    LegacyProtocol legacyProtocol = new Gson().fromJson(message, LegacyProtocol.class);
                     String status = legacyProtocol.getStatus();
                     String reply;
                     if (legacyProtocol.getMode().equals("message")) {
