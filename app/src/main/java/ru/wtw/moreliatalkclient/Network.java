@@ -10,7 +10,6 @@ import android.widget.TextView;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
-import java.nio.channels.NonReadableChannelException;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -97,14 +96,14 @@ public class Network {
                 if (showJSON) {
                     outChat("Received: "+message);
                 } else {
-                    Protocol protocol = new Gson().fromJson(message, Protocol.class);
-                    String status = protocol.getStatus();
+                    LegacyProtocol legacyProtocol = new Gson().fromJson(message, LegacyProtocol.class);
+                    String status = legacyProtocol.getStatus();
                     String reply;
-                    if (protocol.getMode().equals("message")) {
-                        reply = protocol.getTime() + " - " + protocol.getUsername() + ": " + protocol.getText();
+                    if (legacyProtocol.getMode().equals("message")) {
+                        reply = legacyProtocol.getTime() + " - " + legacyProtocol.getUsername() + ": " + legacyProtocol.getText();
                         outChat(reply);
                     }
-                    if (protocol.getMode().equals("reg")) {
+                    if (legacyProtocol.getMode().equals("reg")) {
                         reply = activity.getResources().getString(R.string.auth_status_unknown);
                         if (status.equals("true"))
                             reply = activity.getResources().getString(R.string.auth_status_true);
@@ -165,10 +164,10 @@ public class Network {
 
     public void sendReg () {
         Gson gson = new Gson();
-        Protocol protocol = new Protocol();
-        protocol.setMode("reg");
-        protocol.setUsername(username);
-        protocol.setPassword(password);
+        LegacyProtocol legacyProtocol = new LegacyProtocol();
+        legacyProtocol.setMode("reg");
+        legacyProtocol.setUsername(username);
+        legacyProtocol.setPassword(password);
         String json = "{ \"type\": \"register_user\", \"data\": { \"user\": { \"password\": \"" + password+
                 "\", \"login\": \""+username+"\", \"email\": \"qwwer@qwer.ru\", \"username\": \"User1\" }, "+
                 "\"meta\": \"None\" }, \"jsonapi\": { \"version\": \"1.0\" }, \"meta\": \"None\" }";
@@ -181,11 +180,11 @@ public class Network {
 
     public void sendAuth () {
         Gson gson = new Gson();
-        Protocol protocol = new Protocol();
-        protocol.setMode("reg");
-        protocol.setUsername(username);
-        protocol.setPassword(password);
-        String json = gson.toJson(protocol);
+        LegacyProtocol legacyProtocol = new LegacyProtocol();
+        legacyProtocol.setMode("reg");
+        legacyProtocol.setUsername(username);
+        legacyProtocol.setPassword(password);
+        String json = gson.toJson(legacyProtocol);
         if (socket != null && socket.isOpen()) {
             if (showJSON) outChat("Sending: "+json);
             Log.i("SERVER","Send auth");
@@ -195,11 +194,11 @@ public class Network {
 
     public void sendMessage (String text) {
         Gson gson = new Gson();
-        Protocol protocol = new Protocol();
-        protocol.setMode("message");
-        protocol.setUsername(username);
-        protocol.setText(text);
-        String json = gson.toJson(protocol);
+        LegacyProtocol legacyProtocol = new LegacyProtocol();
+        legacyProtocol.setMode("message");
+        legacyProtocol.setUsername(username);
+        legacyProtocol.setText(text);
+        String json = gson.toJson(legacyProtocol);
         if (socket != null && socket.isOpen()) {
             if (showJSON) outChat("Sending: "+json);
             Log.i("SERVER","Send text");
