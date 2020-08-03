@@ -38,6 +38,7 @@ public class LoginActivity extends Activity {
             ((Switch)findViewById(R.id.switchReconnect)).setChecked(settings.getBoolean("reconnect", false));
             ((Switch)findViewById(R.id.switchJSON)).setChecked(settings.getBoolean("outjson", false));
             ((Switch)findViewById(R.id.switchNewAPI)).setChecked(settings.getBoolean("newapi", false));
+            ((Switch)findViewById(R.id.switchRawJSON)).setChecked(settings.getBoolean("rawjson", false));
 
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -47,6 +48,7 @@ public class LoginActivity extends Activity {
                     EditText editPassword = findViewById(R.id.editPassword);
                     Switch switchReconnect = findViewById(R.id.switchReconnect);
                     Switch switchJSON = findViewById(R.id.switchJSON);
+                    Switch switchRawJSON = findViewById(R.id.switchRawJSON);
                     Switch switchNewAPI = findViewById(R.id.switchNewAPI);
                     String username = editUsername.getText().toString();
                     String password = editPassword.getText().toString();
@@ -54,6 +56,7 @@ public class LoginActivity extends Activity {
                     boolean reconnect = switchReconnect.isChecked();
                     boolean outJSON = switchJSON.isChecked();
                     boolean newAPI = switchNewAPI.isChecked();
+                    boolean rawJSON = switchRawJSON.isChecked();
                     if (servername.isEmpty() || username.isEmpty() || password.isEmpty()) {
                         Log.e("SERVER", "Must be filled");
                     } else {
@@ -64,6 +67,7 @@ public class LoginActivity extends Activity {
                         intent.putExtra("reconnect", reconnect);
                         intent.putExtra("outjson", outJSON);
                         intent.putExtra("newapi", newAPI);
+                        intent.putExtra("rawjson", rawJSON);
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString("servername", servername);
                         editor.putString("username", username);
@@ -71,6 +75,7 @@ public class LoginActivity extends Activity {
                         editor.putBoolean("reconnect", reconnect);
                         editor.putBoolean("outjson", outJSON);
                         editor.putBoolean("newapi", newAPI);
+                        editor.putBoolean("rawjson", rawJSON);
                         editor.apply();
                         startActivity(intent);
                     }

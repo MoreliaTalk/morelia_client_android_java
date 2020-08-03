@@ -28,6 +28,7 @@ public class Network {
     private boolean reconnect;
     private boolean showJSON;
     private boolean useNewAPI;
+    private boolean rawJSON;
 
     private boolean isConnected;
 
@@ -53,6 +54,12 @@ public class Network {
     public void setShowJSON(boolean showJSON) { this.showJSON = showJSON; }
 
     public void setUseNewAPI(boolean useNewAPI) { this.useNewAPI = useNewAPI; }
+
+    public void setRawJSON(boolean rawJSON) { this.rawJSON = rawJSON; }
+
+    public boolean isRawJSON() {
+        return rawJSON;
+    }
 
     public boolean isConnected() {
         return isConnected;
@@ -200,17 +207,26 @@ public class Network {
     }
 
     public void sendMessage (String text) {
-        Gson gson = new Gson();
-        LegacyProtocol legacyProtocol = new LegacyProtocol();
-        legacyProtocol.setMode("message");
-        legacyProtocol.setUsername(username);
-        legacyProtocol.setText(text);
-        String json = gson.toJson(legacyProtocol);
-        if (socket != null && socket.isOpen()) {
-            if (showJSON) outChat("Sending: "+json);
-            Log.i("SERVER","Send text");
-            Log.i("SERVER",json);
-            socket.send(json);
+        if (rawJSON) {
+            if (socket != null && socket.isOpen()) {
+                if (showJSON) outChat("Sending RAW: "+text);
+                Log.i("SERVER","Send text");
+                Log.i("SERVER",text);
+                socket.send(text);
+            }
+        } else {
+            Gson gson = new Gson();
+            LegacyProtocol legacyProtocol = new LegacyProtocol();
+            legacyProtocol.setMode("message");
+            legacyProtocol.setUsername(username);
+            legacyProtocol.setText(text);
+            String json = gson.toJson(legacyProtocol);
+            if (socket != null && socket.isOpen()) {
+                if (showJSON) outChat("Sending: "+json);
+                Log.i("SERVER","Send text");
+                Log.i("SERVER",json);
+                socket.send(json);
+            }
         }
     }
 

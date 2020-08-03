@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
             network.setReconnect(extras.getBoolean("reconnect"));
             network.setShowJSON(extras.getBoolean("outjson"));
             network.setUseNewAPI(extras.getBoolean("newapi"));
+            network.setRawJSON(extras.getBoolean("rawjson"));
             network.connect();
         }
 
@@ -76,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
                     if (!text.isEmpty()) {
                         network.sendMessage(text);
                     }
-                    editSend.setText("");
+                    if (!network.isRawJSON()) {
+                        editSend.setText("");
+                    }
                 }
             }
         });
