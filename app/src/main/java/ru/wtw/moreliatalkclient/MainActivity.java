@@ -26,12 +26,15 @@ public class MainActivity extends AppCompatActivity {
         if(extras != null) {
             Log.i("SERVER","Extra");
             network.setUsername(extras.getString("username"));
+            network.setLogin(extras.getString("login"));
+            network.setEmail(extras.getString("email"));
             network.setPassword(extras.getString("password"));
             network.setServername(extras.getString("servername"));
             network.setReconnect(extras.getBoolean("reconnect"));
             network.setShowJSON(extras.getBoolean("outjson"));
             network.setUseNewAPI(extras.getBoolean("newapi"));
             network.setRawJSON(extras.getBoolean("rawjson"));
+            network.setRegister(extras.getBoolean("register"));
             network.connect();
         }
 

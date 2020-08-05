@@ -22,13 +22,16 @@ public class Network {
 
     private final Activity activity;
 
+    private String login;
     private String username;
     private String password;
     private String servername;
+    private String email;
     private boolean reconnect;
     private boolean showJSON;
     private boolean useNewAPI;
     private boolean rawJSON;
+    private boolean register;
 
     private boolean isConnected;
 
@@ -40,6 +43,10 @@ public class Network {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public void setEmail(String email) { this.email = email; }
+
+    public void setLogin(String login) { this.login = login; }
 
     public void setServername(String servername) {
         this.servername = servername;
@@ -56,6 +63,8 @@ public class Network {
     public void setUseNewAPI(boolean useNewAPI) { this.useNewAPI = useNewAPI; }
 
     public void setRawJSON(boolean rawJSON) { this.rawJSON = rawJSON; }
+
+    public void setRegister(boolean register) { this.register = register; }
 
     public boolean isRawJSON() {
         return rawJSON;
@@ -91,9 +100,13 @@ public class Network {
             public void onOpen(ServerHandshake handshakedata) {
                 isConnected = true;
                 if (useNewAPI) {
-                    sendReg();
+                    if (register) {
+                        sendReg();
+                    } else {
+                        sendAuth();
+                    }
                 } else {
-                    sendAuth();
+                    sendLegacyAuth();
                 }
                 Log.i("SERVER", "Connected");
             }
@@ -183,7 +196,7 @@ public class Network {
         legacyProtocol.setUsername(username);
         legacyProtocol.setPassword(password);
         String json = "{ \"type\": \"register_user\", \"data\": { \"user\": { \"password\": \"" + password+
-                "\", \"login\": \""+username+"\", \"email\": \"qwwer@qwer.ru\", \"username\": \"User1\" }, "+
+                "\", \"login\": \""+login+"\", \"email\": \""+email+"\", \"username\": \""+username+"\" }, "+
                 "\"meta\": \"None\" }, \"jsonapi\": { \"version\": \"1.0\" }, \"meta\": \"None\" }";
         if (socket != null && socket.isOpen()) {
             if (showJSON) outChat("Sending: "+json);
@@ -193,6 +206,22 @@ public class Network {
     }
 
     public void sendAuth () {
+        Gson gson = new Gson();
+        LegacyProtocol legacyProtocol = new LegacyProtocol();
+        legacyProtocol.setMode("reg");
+        legacyProtocol.setUsername(username);
+        legacyProtocol.setPassword(password);
+        String json = "{ \"type\": \"auth\", \"data\": { \"user\": { \"password\": \"" + password+
+                "\", \"login\": \""+login+"\"}, "+
+                "\"meta\": \"None\" }, \"jsonapi\": { \"version\": \"1.0\" }, \"meta\": \"None\" }";
+        if (socket != null && socket.isOpen()) {
+            if (showJSON) outChat("Sending: "+json);
+            Log.i("SERVER","Send auth");
+            socket.send(json);
+        }
+    }
+
+    public void sendLegacyAuth() {
         Gson gson = new Gson();
         LegacyProtocol legacyProtocol = new LegacyProtocol();
         legacyProtocol.setMode("reg");

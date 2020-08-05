@@ -12,10 +12,75 @@ import android.widget.EditText;
 import android.widget.Switch;
 
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements View.OnClickListener {
 
         public static final String APP_PREFERENCES = "preferences";
         private SharedPreferences settings;
+
+        @Override
+        public void onClick(View v){
+            EditText editServername = findViewById(R.id.editServername);
+            EditText editUsername = findViewById(R.id.editUsername);
+            EditText editLogin = findViewById(R.id.editLogin);
+            EditText editPassword = findViewById(R.id.editPassword);
+            EditText editEmail = findViewById(R.id.editEmail);
+            Switch switchReconnect = findViewById(R.id.switchReconnect);
+            Switch switchJSON = findViewById(R.id.switchOutJSON);
+            Switch switchRawJSON = findViewById(R.id.switchRawJSON);
+            Switch switchNewAPI = findViewById(R.id.switchNewAPI);
+            Switch switchNewDesign = findViewById(R.id.switchNewDesign);
+            String login = editLogin.getText().toString();
+            String username = editUsername.getText().toString();
+            String password = editPassword.getText().toString();
+            String servername = editServername.getText().toString();
+            String email = editEmail.getText().toString();
+            boolean reconnect = switchReconnect.isChecked();
+            boolean outJSON = switchJSON.isChecked();
+            boolean newAPI = switchNewAPI.isChecked();
+            boolean newDesign = switchNewDesign.isChecked();
+            boolean rawJSON = switchRawJSON.isChecked();
+            if (servername.isEmpty() || login.isEmpty() || password.isEmpty()) {
+                Log.e("SERVER", "Must be filled");
+            } else {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.putExtra("login", login);
+                intent.putExtra("username", username);
+                intent.putExtra("password", password);
+                intent.putExtra("servername", servername);
+                intent.putExtra("email", email);
+                intent.putExtra("reconnect", reconnect);
+                intent.putExtra("outjson", outJSON);
+                intent.putExtra("newapi", newAPI);
+                intent.putExtra("newdesign", newDesign);
+                intent.putExtra("rawjson", rawJSON);
+                intent.putExtra("register", true);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("servername", servername);
+                editor.putString("username", username);
+                editor.putString("login", login);
+                editor.putString("password", password);
+                editor.putString("email", email);
+                editor.putBoolean("reconnect", reconnect);
+                editor.putBoolean("outjson", outJSON);
+                editor.putBoolean("newapi", newAPI);
+                editor.putBoolean("newdesign", newDesign);
+                editor.putBoolean("rawjson", rawJSON);
+                switch (v.getId()) {
+                    case R.id.btnLogin: {
+                        intent.putExtra("register", false);
+                        editor.apply();
+                        startActivity(intent);
+                        break;
+                    }
+                    case R.id.btnRegister: {
+                        intent.putExtra("register", true);
+                        editor.apply();
+                        startActivity(intent);
+                        break;
+                    }
+                }
+            }
+        }
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +90,17 @@ public class LoginActivity extends Activity {
             settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
             Button btnLogin = findViewById(R.id.btnLogin);
+            btnLogin.setOnClickListener(this);
+            Button btnRegister = findViewById(R.id.btnRegister);
+            btnRegister.setOnClickListener(this);
 
             if (settings.contains("servername")) {
                 ((EditText)findViewById(R.id.editServername)).setText(settings.getString("servername", ""));
+            }
+            if (settings.contains("login")) {
+                ((EditText)findViewById(R.id.editLogin)).setText(settings.getString("login", ""));
+            } else if (settings.contains("username")) {
+                ((EditText)findViewById(R.id.editLogin)).setText(settings.getString("username", ""));
             }
             if (settings.contains("username")) {
                 ((EditText)findViewById(R.id.editUsername)).setText(settings.getString("username", ""));
@@ -35,51 +108,13 @@ public class LoginActivity extends Activity {
             if (settings.contains("password")) {
                 ((EditText)findViewById(R.id.editPassword)).setText(settings.getString("password", ""));
             }
+            if (settings.contains("email")) {
+                ((EditText)findViewById(R.id.editEmail)).setText(settings.getString("email", ""));
+            }
             ((Switch)findViewById(R.id.switchReconnect)).setChecked(settings.getBoolean("reconnect", false));
-            ((Switch)findViewById(R.id.switchJSON)).setChecked(settings.getBoolean("outjson", false));
+            ((Switch)findViewById(R.id.switchOutJSON)).setChecked(settings.getBoolean("outjson", false));
             ((Switch)findViewById(R.id.switchNewAPI)).setChecked(settings.getBoolean("newapi", false));
             ((Switch)findViewById(R.id.switchRawJSON)).setChecked(settings.getBoolean("rawjson", false));
-
-            btnLogin.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    EditText editServername = findViewById(R.id.editServername);
-                    EditText editUsername = findViewById(R.id.editUsername);
-                    EditText editPassword = findViewById(R.id.editPassword);
-                    Switch switchReconnect = findViewById(R.id.switchReconnect);
-                    Switch switchJSON = findViewById(R.id.switchJSON);
-                    Switch switchRawJSON = findViewById(R.id.switchRawJSON);
-                    Switch switchNewAPI = findViewById(R.id.switchNewAPI);
-                    String username = editUsername.getText().toString();
-                    String password = editPassword.getText().toString();
-                    String servername = editServername.getText().toString();
-                    boolean reconnect = switchReconnect.isChecked();
-                    boolean outJSON = switchJSON.isChecked();
-                    boolean newAPI = switchNewAPI.isChecked();
-                    boolean rawJSON = switchRawJSON.isChecked();
-                    if (servername.isEmpty() || username.isEmpty() || password.isEmpty()) {
-                        Log.e("SERVER", "Must be filled");
-                    } else {
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        intent.putExtra("username", username);
-                        intent.putExtra("password", password);
-                        intent.putExtra("servername", servername);
-                        intent.putExtra("reconnect", reconnect);
-                        intent.putExtra("outjson", outJSON);
-                        intent.putExtra("newapi", newAPI);
-                        intent.putExtra("rawjson", rawJSON);
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putString("servername", servername);
-                        editor.putString("username", username);
-                        editor.putString("password", password);
-                        editor.putBoolean("reconnect", reconnect);
-                        editor.putBoolean("outjson", outJSON);
-                        editor.putBoolean("newapi", newAPI);
-                        editor.putBoolean("rawjson", rawJSON);
-                        editor.apply();
-                        startActivity(intent);
-                    }
-                }
-            });
+            ((Switch)findViewById(R.id.switchNewDesign)).setChecked(settings.getBoolean("newdesign", false));
         }
 }

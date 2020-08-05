@@ -7,9 +7,9 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="cancel">Cancel</string>
-    <string name="default_server">ws://m.wtw.ru/ws</string>
-    <string name="default_username">Testuser</string>
-    <string name="default_password">123456</string>
+    <string name="default_server" translatable="false">ws://m.wtw.ru/ws</string>
+    <string name="default_username" translatable="false">Testuser</string>
+    <string name="default_password" translatable="false">123456</string>
     <string name="auth_status_true">Authorization successfully</string>
     <string name="auth_status_false">Wrong username or password</string>
     <string name="auth_status_newreg">New account created</string>
@@ -21,4 +21,9 @@
     <string name="reconnecting">Reconnecring to server</string>
     <string name="switch_new_api">Use new develop API</string>
     <string name="switch_raw_json">Send inputed as RAW JSON</string>
+    <string name="switch_new_design">Show chat in new design</string>
+    <string name="register">Register</string>
+    <string name="email">E-mail</string>
+    <string name="email_hint">For registration only</string>
+    <string name="loginname">Login</string>
 </resources>
