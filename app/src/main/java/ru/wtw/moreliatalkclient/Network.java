@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
+import java.util.Objects;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -66,6 +67,14 @@ public class Network {
 
     public void setRegister(boolean register) { this.register = register; }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
     public boolean isRawJSON() {
         return rawJSON;
     }
@@ -117,18 +126,18 @@ public class Network {
                 Protocol protocol = new Gson().fromJson(message, Protocol.class);
                 if (showJSON) {
                     if (legacyProtocol.getMode() != null) {
-                        outChat("Received old protocol: "+message);
+                        outChat("", "Received old protocol: "+message, "");
                     } else if (protocol.getType() != null) {
-                        outChat("Received new protocol: "+message);
+                        outChat("", "Received new protocol: "+message, "");
                     } else {
-                        outChat("Received unknown protocol: "+message);
+                        outChat("", "Received unknown protocol: "+message, "");
                     }
                 } else {
                     String status = legacyProtocol.getStatus();
                     String reply;
                     if (legacyProtocol.getMode().equals("message")) {
-                        reply = legacyProtocol.getTime() + " - " + legacyProtocol.getUsername() + ": " + legacyProtocol.getText();
-                        outChat(reply);
+                        //reply = legacyProtocol.getTime() + " - " + legacyProtocol.getUsername() + ": " + legacyProtocol.getText();
+                        outChat(legacyProtocol.getUsername(), legacyProtocol.getText(), legacyProtocol.getTime());
                     }
                     if (legacyProtocol.getMode().equals("reg")) {
                         reply = activity.getResources().getString(R.string.auth_status_unknown);
@@ -138,7 +147,7 @@ public class Network {
                             reply = activity.getResources().getString(R.string.auth_status_false);
                         if (status.equals("newreg"))
                             reply = activity.getResources().getString(R.string.auth_status_newreg);
-                        outChat(reply);
+                        outChat("", reply, "");
                     }
                 }
                 Log.i("SERVER", "Message: " + message);
@@ -152,9 +161,9 @@ public class Network {
             @Override
             public void onClose(final int code, String reason, boolean remote) {
                 Log.i("SERVER", "Disconnected with exit code " + String.valueOf(code) + " additional info: " + reason);
-                outChat(activity.getResources().getString(R.string.socket_close) + String.valueOf(code));
+                outChat("", activity.getResources().getString(R.string.socket_close) + String.valueOf(code), "");
                 if (reconnect) {
-                    outChat(activity.getResources().getString(R.string.reconnecting));
+                    outChat("", activity.getResources().getString(R.string.reconnecting), "");
                     Network.this.reconnect();
                 }
             }
@@ -162,7 +171,7 @@ public class Network {
             @Override
             public void onError(Exception ex) {
                 Log.e("SERVER", "Error", ex);
-                outChat(activity.getResources().getString(R.string.socket_error) + ex.toString());
+                outChat("", activity.getResources().getString(R.string.socket_error) + ex.toString(), "");
             }
         };
 
@@ -171,22 +180,23 @@ public class Network {
 
     }
 
-    public void outChat (final String text) {
-        activity.runOnUiThread( new Runnable() {
-            @Override
-            public void run() {
-                final TextView chat = ((TextView) activity.findViewById(R.id.chat));
-                final ScrollView chatScroller = activity.findViewById(R.id.chatScroller);
-                chat.setText(chat.getText().toString() + "\n" + text + "\n");
-                chatScroller.post(new Runnable()
-                {
-                    public void run()
-                    {
-                        chatScroller.smoothScrollTo(0, chat.getBottom());
-                    }
-                });
-            }
-        });
+    public void outChat (final String user, final String text, final String time) {
+        if (activity.getClass().toString().equals("class ru.wtw.moreliatalkclient.TextChatActivity")) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((TextChatActivity) activity).onMessage(user, text, time);
+                }
+            });
+        }
+        if (activity.getClass().toString().equals("class ru.wtw.moreliatalkclient.FlowActivity")) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((FlowActivity) activity).onMessage(user, text, time);
+                }
+            });
+        }
     }
 
     public void sendReg () {
@@ -199,7 +209,7 @@ public class Network {
                 "\", \"login\": \""+login+"\", \"email\": \""+email+"\", \"username\": \""+username+"\" }, "+
                 "\"meta\": \"None\" }, \"jsonapi\": { \"version\": \"1.0\" }, \"meta\": \"None\" }";
         if (socket != null && socket.isOpen()) {
-            if (showJSON) outChat("Sending: "+json);
+            if (showJSON) outChat("", "Sending: "+json, "");
             Log.i("SERVER","Send reg");
             socket.send(json);
         }
@@ -215,7 +225,7 @@ public class Network {
                 "\", \"login\": \""+login+"\"}, "+
                 "\"meta\": \"None\" }, \"jsonapi\": { \"version\": \"1.0\" }, \"meta\": \"None\" }";
         if (socket != null && socket.isOpen()) {
-            if (showJSON) outChat("Sending: "+json);
+            if (showJSON) outChat("","Sending: "+json, "");
             Log.i("SERVER","Send auth");
             socket.send(json);
         }
@@ -229,7 +239,7 @@ public class Network {
         legacyProtocol.setPassword(password);
         String json = gson.toJson(legacyProtocol);
         if (socket != null && socket.isOpen()) {
-            if (showJSON) outChat("Sending: "+json);
+            if (showJSON) outChat("", "Sending: "+json, "");
             Log.i("SERVER","Send auth");
             socket.send(json);
         }
@@ -238,7 +248,7 @@ public class Network {
     public void sendMessage (String text) {
         if (rawJSON) {
             if (socket != null && socket.isOpen()) {
-                if (showJSON) outChat("Sending RAW: "+text);
+                if (showJSON) outChat("","Sending RAW: "+text, "");
                 Log.i("SERVER","Send text");
                 Log.i("SERVER",text);
                 socket.send(text);
@@ -251,7 +261,7 @@ public class Network {
             legacyProtocol.setText(text);
             String json = gson.toJson(legacyProtocol);
             if (socket != null && socket.isOpen()) {
-                if (showJSON) outChat("Sending: "+json);
+                if (showJSON) outChat("","Sending: "+json, "");
                 Log.i("SERVER","Send text");
                 Log.i("SERVER",json);
                 socket.send(json);

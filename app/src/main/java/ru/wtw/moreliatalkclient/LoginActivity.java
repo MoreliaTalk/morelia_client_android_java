@@ -42,7 +42,12 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             if (servername.isEmpty() || login.isEmpty() || password.isEmpty()) {
                 Log.e("SERVER", "Must be filled");
             } else {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent;
+                if (newDesign) {
+                    intent = new Intent(LoginActivity.this, FlowActivity.class);
+                } else {
+                    intent = new Intent(LoginActivity.this, TextChatActivity.class);
+                }
                 intent.putExtra("login", login);
                 intent.putExtra("username", username);
                 intent.putExtra("password", password);

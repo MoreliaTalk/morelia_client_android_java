@@ -1,27 +1,45 @@
 package ru.wtw.moreliatalkclient;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+public class FlowActivity extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity {
+    private MessageAdapter adapter;
     private Network network;
+
+    private static final int VERTICAL_ITEM_SPACE = 48;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        network = new Network(MainActivity.this);
-        TextView chat = findViewById(R.id.chat);
-        chat.setText("");
+        setContentView(R.layout.activity_flow);
+
+        RecyclerView flowWindow = findViewById(R.id.flowWindow);
+        flowWindow.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_ITEM_SPACE));
+
+        adapter = new MessageAdapter();
+
+        adapter
+                .setMsgInLayout(R.layout.message_blue_python)
+                .setMsgOutLayout(R.layout.message_yellow_python)
+                .setServiceLayout(R.layout.message_service)
+                .setMessageTextId(R.id.messageText)
+                .setMessageTimeId(R.id.messageTime)
+                .setUserNameId(R.id.userName)
+                .appendTo(flowWindow, this);
+
+
+        network = new Network(FlowActivity.this);
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
             Log.i("SERVER","Extra");
@@ -37,39 +55,12 @@ public class MainActivity extends AppCompatActivity {
             network.setRegister(extras.getBoolean("register"));
             network.connect();
         }
-
-        final View activityRootView = findViewById(R.id.ActivityLayout);
-        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            public void onGlobalLayout() {
-                int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight();
-                if (heightDiff > 100) {
-                    final TextView chat = ((TextView) findViewById(R.id.chat));
-                    final ScrollView chatScroller = findViewById(R.id.chatScroller);
-                    chatScroller.post(new Runnable()
-                    {
-                        public void run()
-                        {
-                            chatScroller.smoothScrollTo(0, chat.getBottom());
-                        }
-                    });
-                }
-            }
-        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         ImageButton sendButton = findViewById(R.id.sendButton);
-        final TextView chat = ((TextView) findViewById(R.id.chat));
-        final ScrollView chatScroller = findViewById(R.id.chatScroller);
-        chatScroller.post(new Runnable()
-        {
-            public void run()
-            {
-                chatScroller.smoothScrollTo(0, chat.getBottom());
-            }
-        });
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,4 +78,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    public void onMessage(String user, String text, String time) {
+        int type = MessageAdapter.TYPE_SERVICE;
+        if (!user.equals("")) {
+            if (network.getLogin().equals(user)) {
+                type = MessageAdapter.TYPE_MSG_IN;
+            } else {
+                type = MessageAdapter.TYPE_MSG_OUT;
+            }
+        }
+        adapter.addMessage(
+                new MessageAdapter.Message( text, user, time, type)
+        );
+    }
+
 }
+
