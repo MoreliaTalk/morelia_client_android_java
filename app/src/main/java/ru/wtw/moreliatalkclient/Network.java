@@ -161,9 +161,9 @@ public class Network {
             @Override
             public void onClose(final int code, String reason, boolean remote) {
                 Log.i("SERVER", "Disconnected with exit code " + String.valueOf(code) + " additional info: " + reason);
-                outChat("", activity.getResources().getString(R.string.socket_close) + String.valueOf(code), "");
+                outChat("", activity.getResources().getString(R.string.socket_close) + String.valueOf(code), "*");
                 if (reconnect) {
-                    outChat("", activity.getResources().getString(R.string.reconnecting), "");
+                    outChat("", activity.getResources().getString(R.string.reconnecting), "*");
                     Network.this.reconnect();
                 }
             }
@@ -171,7 +171,7 @@ public class Network {
             @Override
             public void onError(Exception ex) {
                 Log.e("SERVER", "Error", ex);
-                outChat("", activity.getResources().getString(R.string.socket_error) + ex.toString(), "");
+                outChat("", activity.getResources().getString(R.string.socket_error) + ex.toString(), "*");
             }
         };
 

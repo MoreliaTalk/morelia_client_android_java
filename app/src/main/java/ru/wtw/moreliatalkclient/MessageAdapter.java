@@ -18,8 +18,9 @@ public class MessageAdapter extends RecyclerView.Adapter {
     private RecyclerView recyclerView;
 
     public static final int TYPE_SERVICE = 0;
-    public static final int TYPE_MSG_OUT = 1;
-    public static final int TYPE_MSG_IN = 2;
+    public static final int TYPE_ERROR = 1;
+    public static final int TYPE_MSG_OUT = 2;
+    public static final int TYPE_MSG_IN = 3;
 
     private static final int MAX_MESSAGES = 1000;
 
@@ -28,6 +29,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
     private int userNameId;
 
     private int serviceLayout;
+    private int errorLayout;
     private int msgOutLayout;
     private int msgInLayout;
 
@@ -96,6 +98,11 @@ public class MessageAdapter extends RecyclerView.Adapter {
         return this;
     }
 
+    public MessageAdapter setErrorLayout(int errorLayout) {
+        this.errorLayout = errorLayout;
+        return this;
+    }
+
     public MessageAdapter() {
         this.messageList = new ArrayList<>();
     }
@@ -129,6 +136,8 @@ public class MessageAdapter extends RecyclerView.Adapter {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(msgOutLayout, viewGroup, false);
         } else if (view_type == TYPE_MSG_OUT) {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(msgInLayout, viewGroup, false);
+        } else if (view_type == TYPE_ERROR) {
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(errorLayout, viewGroup, false);
         } else {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(serviceLayout, viewGroup, false);
         }

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Switch;
 
 
@@ -29,11 +30,13 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             Switch switchRawJSON = findViewById(R.id.switchRawJSON);
             Switch switchNewAPI = findViewById(R.id.switchNewAPI);
             Switch switchNewDesign = findViewById(R.id.switchNewDesign);
+            Spinner spinnerThemeIndex = findViewById(R.id.themeIndex);
             String login = editLogin.getText().toString();
             String username = editUsername.getText().toString();
             String password = editPassword.getText().toString();
             String servername = editServername.getText().toString();
             String email = editEmail.getText().toString();
+            int themeIndex = spinnerThemeIndex.getSelectedItemPosition();
             boolean reconnect = switchReconnect.isChecked();
             boolean outJSON = switchJSON.isChecked();
             boolean newAPI = switchNewAPI.isChecked();
@@ -59,6 +62,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 intent.putExtra("newdesign", newDesign);
                 intent.putExtra("rawjson", rawJSON);
                 intent.putExtra("register", true);
+                intent.putExtra("theme", themeIndex);
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putString("servername", servername);
                 editor.putString("username", username);
@@ -70,6 +74,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 editor.putBoolean("newapi", newAPI);
                 editor.putBoolean("newdesign", newDesign);
                 editor.putBoolean("rawjson", rawJSON);
+                editor.putInt("theme", themeIndex);
                 switch (v.getId()) {
                     case R.id.btnLogin: {
                         intent.putExtra("register", false);
@@ -116,6 +121,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             if (settings.contains("email")) {
                 ((EditText)findViewById(R.id.editEmail)).setText(settings.getString("email", ""));
             }
+            ((Spinner)findViewById(R.id.themeIndex)).setSelection(settings.getInt("theme", 0));
             ((Switch)findViewById(R.id.switchReconnect)).setChecked(settings.getBoolean("reconnect", false));
             ((Switch)findViewById(R.id.switchOutJSON)).setChecked(settings.getBoolean("outjson", false));
             ((Switch)findViewById(R.id.switchNewAPI)).setChecked(settings.getBoolean("newapi", false));
