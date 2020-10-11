@@ -1,6 +1,7 @@
 <component name="ProjectDictionaryState">
   <dictionary name="Admin">
     <words>
+      <w>cleanmessage</w>
       <w>handshakedata</w>
       <w>javatime</w>
       <w>jsonapi</w>
@@ -14,9 +15,11 @@
       <w>noninfringement</w>
       <w>outcoming</w>
       <w>outjson</w>
+      <w>permessage</w>
       <w>rawjson</w>
       <w>servername</w>
       <w>testuser</w>
+      <w>websocket</w>
     </words>
   </dictionary>
 </component>

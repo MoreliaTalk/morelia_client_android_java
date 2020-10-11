@@ -1,25 +1,34 @@
 package ru.wtw.moreliatalkclient;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.widget.ScrollView;
-import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
-import java.util.Objects;
+import java.nio.charset.StandardCharsets;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
+
+// Uncomment to enable compression
+//import org.java_websocket.drafts.Draft;
+//import org.java_websocket.drafts.Draft_6455;
+//import org.java_websocket.extensions.permessage_deflate.PerMessageDeflateExtension;
 
 import com.google.gson.Gson;
 
 public class Network {
     private URI socketURI;
     private WebSocketClient socket;
+
+    // Uncomment and specify in new WebSocketClient(socketURI, perMessageDeflateDraft)  to enable compression
+    // private static final Draft perMessageDeflateDraft = new Draft_6455(new PerMessageDeflateExtension());
 
     private final Activity activity;
 
@@ -75,8 +84,8 @@ public class Network {
         return login;
     }
 
-    public boolean isRawJSON() {
-        return rawJSON;
+    public boolean isNotRawJSON() {
+        return !rawJSON;
     }
 
     public boolean isConnected() {
@@ -103,6 +112,7 @@ public class Network {
             }
 
         }
+        // add second param perMessageDeflateDraft to enable compression
         if (socket == null) socket = new WebSocketClient(socketURI) {
 
             @Override
@@ -122,17 +132,14 @@ public class Network {
 
             @Override
             public void onMessage(String message) {
-                LegacyProtocol legacyProtocol = new Gson().fromJson(message, LegacyProtocol.class);
-                Protocol protocol = new Gson().fromJson(message, Protocol.class);
+                String cleanmessage = message.replaceAll("\\\\n", "").replaceAll("\\\\", "");
+                cleanmessage = cleanmessage.startsWith("\"") ? cleanmessage.substring(1) : cleanmessage;
+                cleanmessage = cleanmessage.endsWith("\"") ? cleanmessage.substring(0, cleanmessage.length() - 1) : cleanmessage;
+                Protocol protocol = new Gson().fromJson(cleanmessage, Protocol.class);
                 if (showJSON) {
-                    if (legacyProtocol.getMode() != null) {
-                        outChat("", "Received old protocol: "+message, "");
-                    } else if (protocol.getType() != null) {
-                        outChat("", "Received new protocol: "+message, "");
-                    } else {
-                        outChat("", "Received unknown protocol: "+message, "");
-                    }
+                        outChat("", "Received: "+ cleanmessage, "");
                 } else {
+                    LegacyProtocol legacyProtocol = new Gson().fromJson(message, LegacyProtocol.class);
                     String status = legacyProtocol.getStatus();
                     String reply;
                     if (legacyProtocol.getMode().equals("message")) {
@@ -153,15 +160,20 @@ public class Network {
                 Log.i("SERVER", "Message: " + message);
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
-            public void onMessage(ByteBuffer message) {
-                Log.i("SERVER", "Message byte buffer");
+            public void onMessage(ByteBuffer bytebuffer) {
+                Log.i("SERVER", "Message byte buffer, converting to string");
+                String message = StandardCharsets.UTF_8.decode(bytebuffer).toString();
+
+
+                onMessage(message);
             }
 
             @Override
             public void onClose(final int code, String reason, boolean remote) {
-                Log.i("SERVER", "Disconnected with exit code " + String.valueOf(code) + " additional info: " + reason);
-                outChat("", activity.getResources().getString(R.string.socket_close) + String.valueOf(code), "*");
+                Log.i("SERVER", "Disconnected with exit code " + code + " additional info: " + reason);
+                outChat("", activity.getResources().getString(R.string.socket_close) + code, "*");
                 if (reconnect) {
                     outChat("", activity.getResources().getString(R.string.reconnecting), "*");
                     Network.this.reconnect();
@@ -200,14 +212,19 @@ public class Network {
     }
 
     public void sendReg () {
+        User[] user = new User[1];
+        user[0] = new User();
+        user[0].setLogin(login);
+        user[0].setUsername(username);
+        user[0].setPassword(password);
+        user[0].setEmail(email);
+        Data data = new Data();
+        data.setUser(user);
+        Protocol protocol = new Protocol();
+        protocol.setType("register_user");
+        protocol.setData(data);
         Gson gson = new Gson();
-        LegacyProtocol legacyProtocol = new LegacyProtocol();
-        legacyProtocol.setMode("reg");
-        legacyProtocol.setUsername(username);
-        legacyProtocol.setPassword(password);
-        String json = "{ \"type\": \"register_user\", \"data\": { \"user\": { \"password\": \"" + password+
-                "\", \"login\": \""+login+"\", \"email\": \""+email+"\", \"username\": \""+username+"\" }, "+
-                "\"meta\": \"None\" }, \"jsonapi\": { \"version\": \"1.0\" }, \"meta\": \"None\" }";
+        String json = gson.toJson(protocol);
         if (socket != null && socket.isOpen()) {
             if (showJSON) outChat("", "Sending: "+json, "");
             Log.i("SERVER","Send reg");
@@ -216,14 +233,17 @@ public class Network {
     }
 
     public void sendAuth () {
+        User[] user = new User[1];
+        user[0] = new User();
+        user[0].setLogin(login);
+        user[0].setPassword(password);
+        Data data = new Data();
+        data.setUser(user);
+        Protocol protocol = new Protocol();
+        protocol.setType("auth");
+        protocol.setData(data);
         Gson gson = new Gson();
-        LegacyProtocol legacyProtocol = new LegacyProtocol();
-        legacyProtocol.setMode("reg");
-        legacyProtocol.setUsername(username);
-        legacyProtocol.setPassword(password);
-        String json = "{ \"type\": \"auth\", \"data\": { \"user\": { \"password\": \"" + password+
-                "\", \"login\": \""+login+"\"}, "+
-                "\"meta\": \"None\" }, \"jsonapi\": { \"version\": \"1.0\" }, \"meta\": \"None\" }";
+        String json = gson.toJson(protocol);
         if (socket != null && socket.isOpen()) {
             if (showJSON) outChat("","Sending: "+json, "");
             Log.i("SERVER","Send auth");

@@ -27,4 +27,6 @@
     <string name="email_hint">For registration only</string>
     <string name="loginname">Login</string>
     <string name="themes">Theme</string>
+    <string name="send">Send</string>
+    <string name="message">Message</string>
 </resources>

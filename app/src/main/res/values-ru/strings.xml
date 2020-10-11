@@ -25,5 +25,7 @@
     <string name="email_hint">Только при регистрации</string>
     <string name="loginname">Логин</string>
     <string name="themes">Тема оформления</string>
+    <string name="send">Send</string>
+    <string name="message">Message</string>
 
 </resources>

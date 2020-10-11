@@ -100,7 +100,7 @@ public class FlowActivity extends AppCompatActivity {
                     if (!text.isEmpty()) {
                         network.sendMessage(text);
                     }
-                    if (!network.isRawJSON()) {
+                    if (network.isNotRawJSON()) {
                         editSend.setText("");
                     }
                 }

@@ -1,21 +1,24 @@
 package ru.wtw.moreliatalkclient;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class User {
-    private int uuid;
+    private Long uuid;
     private String login;
     private String password;
     private String username;
-    private boolean isBot;
-    private int authid;
+    private Boolean isBot;
+    private String authid;
     private String email;
     private String avatar;
     private String bio;
 
-    public int getUuid() {
+    public long getUuid() {
         return uuid;
     }
 
-    public void setUuid(int uuid) {
+    public void setUuid(long uuid) {
         this.uuid = uuid;
     }
 
@@ -51,11 +54,11 @@ class User {
         isBot = bot;
     }
 
-    public int getAuthid() {
+    public String getAuthid() {
         return authid;
     }
 
-    public void setAuthid(int authid) {
+    public void setAuthid(String authid) {
         this.authid = authid;
     }
 
@@ -320,9 +323,9 @@ class Message {
 
 class Data {
     private String time;
-    private Flow flow;
-    private Message message;
-    private User user;
+    private Flow[] flow;
+    private Message[] message;
+    private User[] user;
     private String meta;
 
     public String getTime() {
@@ -333,27 +336,27 @@ class Data {
         this.time = time;
     }
 
-    public Flow getFlow() {
+    public Flow[] getFlow() {
         return flow;
     }
 
-    public void setFlow(Flow flow) {
+    public void setFlow(Flow[] flow) {
         this.flow = flow;
     }
 
-    public Message getMessage() {
+    public Message[] getMessage() {
         return message;
     }
 
-    public void setMessage(Message message) {
+    public void setMessage(Message[] message) {
         this.message = message;
     }
 
-    public User getUser() {
+    public User[] getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(User[] user) {
         this.user = user;
     }
 
