@@ -29,4 +29,5 @@
     <string name="themes">Theme</string>
     <string name="send">Send</string>
     <string name="message">Message</string>
+    <string name="auth_status_exist">Such user is already om the server</string>
 </resources>

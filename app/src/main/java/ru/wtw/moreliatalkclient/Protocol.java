@@ -370,7 +370,8 @@ class Errors {
     private short code;
     private String status;
     private String time;
-    private String detail;
+    // Don't deserialize before server patch {}
+    //    private String detail;
 
     public short getCode() {
         return code;
@@ -396,13 +397,13 @@ class Errors {
         this.time = time;
     }
 
-    public String getDetail() {
-        return detail;
-    }
+//    public String getDetail() {
+//        return detail;
+//    }
 
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
+//    public void setDetail(String detail) {
+//        this.detail = detail;
+//    }
 }
 
 class Jsonapi {

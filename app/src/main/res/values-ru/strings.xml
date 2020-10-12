@@ -26,6 +26,7 @@
     <string name="loginname">Логин</string>
     <string name="themes">Тема оформления</string>
     <string name="send">Send</string>
-    <string name="message">Message</string>
+    <string name="message">Сообщение</string>
+    <string name="auth_status_exist">Такой пользователь уже есть на сервере</string>
 
 </resources>

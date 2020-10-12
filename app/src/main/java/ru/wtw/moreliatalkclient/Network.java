@@ -117,85 +117,72 @@ public class Network {
 
         }
         // add second param perMessageDeflateDraft to enable compression
-        if (socket == null) socket = new WebSocketClient(socketURI) {
+        if (socket == null) {
+            socket = new WebSocketClient(socketURI) {
 
-            @Override
-            public void onOpen(ServerHandshake handshakedata) {
-                isConnected = true;
-                if (useNewAPI) {
+                @Override
+                public void onOpen(ServerHandshake handshakedata) {
+                    isConnected = true;
                     if (register) {
                         sendReg();
                     } else {
                         sendAuth();
                     }
-                } else {
-                    sendLegacyAuth();
+                    Log.i("SERVER", "Connected");
                 }
-                Log.i("SERVER", "Connected");
-            }
 
-            @Override
-            public void onMessage(String message) {
-                String cleanmessage = message.replaceAll("\\\\n", "").replaceAll("\\\\", "");
-                cleanmessage = cleanmessage.startsWith("\"") ? cleanmessage.substring(1) : cleanmessage;
-                cleanmessage = cleanmessage.endsWith("\"") ? cleanmessage.substring(0, cleanmessage.length() - 1) : cleanmessage;
-                if (showJSON) {
-                        outChat("", "Received: "+ cleanmessage, "");
-                } else {
-                    LegacyProtocol legacyProtocol = new Gson().fromJson(message, LegacyProtocol.class);
-                    String status = legacyProtocol.getStatus();
-                    String reply;
-                    if (legacyProtocol.getMode().equals("message")) {
-                        //reply = legacyProtocol.getTime() + " - " + legacyProtocol.getUsername() + ": " + legacyProtocol.getText();
-                        outChat(legacyProtocol.getUsername(), legacyProtocol.getText(), legacyProtocol.getTime());
+                @Override
+                public void onMessage(String message) {
+                    String cleanmessage = message.replaceAll("\\\\n", "").replaceAll("\\\\", "");
+                    cleanmessage = cleanmessage.startsWith("\"") ? cleanmessage.substring(1) : cleanmessage;
+                    cleanmessage = cleanmessage.endsWith("\"") ? cleanmessage.substring(0, cleanmessage.length() - 1) : cleanmessage;
+                    if (showJSON) {
+                        outChat("", "Received: " + cleanmessage, "");
                     }
-                    if (legacyProtocol.getMode().equals("reg")) {
-                        reply = activity.getResources().getString(R.string.auth_status_unknown);
-                        if (status.equals("true"))
-                            reply = activity.getResources().getString(R.string.auth_status_true);
-                        if (status.equals("false"))
-                            reply = activity.getResources().getString(R.string.auth_status_false);
-                        if (status.equals("newreg"))
+                    Protocol protocol = new Gson().fromJson(cleanmessage, Protocol.class);
+                    String reply = "";
+                    if (protocol.getType().equals("register_user")) {
+                        if (protocol.getErrors().getCode() == 201) {
+                            uuid = protocol.getData().getUser()[0].getUuid();
+                            auth_id = protocol.getData().getUser()[0].getAuth_id();
                             reply = activity.getResources().getString(R.string.auth_status_newreg);
+                        }
+                        if (protocol.getErrors().getCode() == 409)
+                            reply = activity.getResources().getString(R.string.auth_status_exist);
+                    }
+                    if (!showJSON) {
                         outChat("", reply, "");
                     }
+                    Log.i("SERVER", "Message: " + message);
                 }
-                Protocol protocol = new Gson().fromJson(cleanmessage, Protocol.class);
-                if (protocol.getType().equals("register_user")) {
-                    if (protocol.getErrors().getCode() == 201) {
-                        uuid = protocol.getData().getUser()[0].getUuid();
-                        auth_id = protocol.getData().getUser()[0].getAuth_id();
+
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                @Override
+                public void onMessage(ByteBuffer bytebuffer) {
+                    Log.i("SERVER", "Message byte buffer, converting to string");
+                    String message = StandardCharsets.UTF_8.decode(bytebuffer).toString();
+
+
+                    onMessage(message);
+                }
+
+                @Override
+                public void onClose(final int code, String reason, boolean remote) {
+                    Log.i("SERVER", "Disconnected with exit code " + code + " additional info: " + reason);
+                    outChat("", activity.getResources().getString(R.string.socket_close) + code, "*");
+                    if (reconnect) {
+                        outChat("", activity.getResources().getString(R.string.reconnecting), "*");
+                        Network.this.reconnect();
                     }
                 }
-                Log.i("SERVER", "Message: " + message);
-            }
 
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            public void onMessage(ByteBuffer bytebuffer) {
-                Log.i("SERVER", "Message byte buffer, converting to string");
-                String message = StandardCharsets.UTF_8.decode(bytebuffer).toString();
-
-
-                onMessage(message);
-            }
-
-            @Override
-            public void onClose(final int code, String reason, boolean remote) {
-                Log.i("SERVER", "Disconnected with exit code " + code + " additional info: " + reason);
-                outChat("", activity.getResources().getString(R.string.socket_close) + code, "*");
-                if (reconnect) {
-                    outChat("", activity.getResources().getString(R.string.reconnecting), "*");
-                    Network.this.reconnect();
+                @Override
+                public void onError(Exception ex) {
+                    Log.e("SERVER", "Error", ex);
+                    outChat("", activity.getResources().getString(R.string.socket_error) + ex.toString(), "*");
                 }
-            }
-
-            @Override
-            public void onError(Exception ex) {
-                Log.e("SERVER", "Error", ex);
-                outChat("", activity.getResources().getString(R.string.socket_error) + ex.toString(), "*");
-            }
-        };
+            };
+        }
 
         Log.i("SERVER","Connect");
         socket.connect();
@@ -261,19 +248,6 @@ public class Network {
         }
     }
 
-    public void sendLegacyAuth() {
-        Gson gson = new Gson();
-        LegacyProtocol legacyProtocol = new LegacyProtocol();
-        legacyProtocol.setMode("reg");
-        legacyProtocol.setUsername(username);
-        legacyProtocol.setPassword(password);
-        String json = gson.toJson(legacyProtocol);
-        if (socket != null && socket.isOpen()) {
-            if (showJSON) outChat("", "Sending: "+json, "");
-            Log.i("SERVER","Send auth");
-            socket.send(json);
-        }
-    }
 
     public void sendMessage (String text) {
         if (rawJSON) {
