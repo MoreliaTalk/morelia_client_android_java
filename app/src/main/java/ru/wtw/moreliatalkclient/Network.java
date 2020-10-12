@@ -37,6 +37,10 @@ public class Network {
     private String password;
     private String servername;
     private String email;
+
+    private long uuid;
+    private String auth_id;
+
     private boolean reconnect;
     private boolean showJSON;
     private boolean useNewAPI;
@@ -135,7 +139,6 @@ public class Network {
                 String cleanmessage = message.replaceAll("\\\\n", "").replaceAll("\\\\", "");
                 cleanmessage = cleanmessage.startsWith("\"") ? cleanmessage.substring(1) : cleanmessage;
                 cleanmessage = cleanmessage.endsWith("\"") ? cleanmessage.substring(0, cleanmessage.length() - 1) : cleanmessage;
-                Protocol protocol = new Gson().fromJson(cleanmessage, Protocol.class);
                 if (showJSON) {
                         outChat("", "Received: "+ cleanmessage, "");
                 } else {
@@ -155,6 +158,13 @@ public class Network {
                         if (status.equals("newreg"))
                             reply = activity.getResources().getString(R.string.auth_status_newreg);
                         outChat("", reply, "");
+                    }
+                }
+                Protocol protocol = new Gson().fromJson(cleanmessage, Protocol.class);
+                if (protocol.getType().equals("register_user")) {
+                    if (protocol.getErrors().getCode() == 201) {
+                        uuid = protocol.getData().getUser()[0].getUuid();
+                        auth_id = protocol.getData().getUser()[0].getAuth_id();
                     }
                 }
                 Log.i("SERVER", "Message: " + message);
@@ -274,12 +284,25 @@ public class Network {
                 socket.send(text);
             }
         } else {
+            User[] user = new User[1];
+            user[0] = new User();
+            user[0].setAuth_id(auth_id);
+            user[0].setUuid(uuid);
+            Flow[] flow = new Flow[1];
+            flow[0] = new Flow();
+            flow[0].setId(1);
+            Message[] message = new Message[1];
+            message[0] = new Message();
+            message[0].setText(text);
+            Data data = new Data();
+            data.setUser(user);
+            data.setFlow(flow);
+            data.setMessage(message);
+            Protocol protocol = new Protocol();
+            protocol.setType("send_message");
+            protocol.setData(data);
             Gson gson = new Gson();
-            LegacyProtocol legacyProtocol = new LegacyProtocol();
-            legacyProtocol.setMode("message");
-            legacyProtocol.setUsername(username);
-            legacyProtocol.setText(text);
-            String json = gson.toJson(legacyProtocol);
+            String json = gson.toJson(protocol);
             if (socket != null && socket.isOpen()) {
                 if (showJSON) outChat("","Sending: "+json, "");
                 Log.i("SERVER","Send text");

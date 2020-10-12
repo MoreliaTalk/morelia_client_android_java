@@ -1,15 +1,12 @@
 package ru.wtw.moreliatalkclient;
 
-import java.util.ArrayList;
-import java.util.List;
-
 class User {
     private Long uuid;
     private String login;
     private String password;
     private String username;
     private Boolean isBot;
-    private String authid;
+    private String auth_id;
     private String email;
     private String avatar;
     private String bio;
@@ -54,12 +51,12 @@ class User {
         isBot = bot;
     }
 
-    public String getAuthid() {
-        return authid;
+    public String getAuth_id() {
+        return auth_id;
     }
 
-    public void setAuthid(String authid) {
-        this.authid = authid;
+    public void setAuth_id(String auth_id) {
+        this.auth_id = auth_id;
     }
 
     public String getEmail() {
