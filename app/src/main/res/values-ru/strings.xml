@@ -28,5 +28,16 @@
     <string name="send">Send</string>
     <string name="message">Сообщение</string>
     <string name="auth_status_exist">Такой пользователь уже есть на сервере</string>
+    <string name="nav_header_title">Имя пользователя</string>
+    <string name="nav_header_subtitle">login@server</string>
+    <string name="action_settings">Настройки</string>
+    <string name="menu_home">Чаты</string>
+    <string name="menu_jsonlogs">Логи JSON</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="title_activity_main">MoreliaTalk</string>
+    <string name="menu_login">Login / Logout</string>
+    <string name="navigation_drawer_open">Открыть меню навигации</string>
+    <string name="navigation_drawer_close">Закрыть меню навигации</string>
+    <string name="nav_header_desc">Навигация</string>
 
 </resources>

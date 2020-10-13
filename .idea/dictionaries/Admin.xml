@@ -2,9 +2,11 @@
   <dictionary name="Admin">
     <words>
       <w>cleanmessage</w>
+      <w>flowlist</w>
       <w>handshakedata</w>
       <w>javatime</w>
       <w>jsonapi</w>
+      <w>jsonlogs</w>
       <w>loginname</w>
       <w>morelia</w>
       <w>moreliatalkclient</w>
