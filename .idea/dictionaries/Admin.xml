@@ -21,6 +21,7 @@
       <w>rawjson</w>
       <w>servername</w>
       <w>testuser</w>
+      <w>unsecure</w>
       <w>websocket</w>
     </words>
   </dictionary>

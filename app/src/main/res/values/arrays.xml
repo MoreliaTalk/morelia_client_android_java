@@ -1,0 +1,26 @@
+<resources>
+    <!-- WSS Preference -->
+    <string-array name="wss_entries">
+        <item>Use secure sockets only</item>
+        <item>Try secure sockets first</item>
+        <item>Try unsecure sockets first</item>
+        <item>Use unsecure sockets only</item>
+    </string-array>
+
+    <string-array name="wss_values">
+        <item>wss</item>
+        <item>wss_ws</item>
+        <item>ws_wss</item>
+        <item>ws</item>
+    </string-array>
+
+    <!-- Themes Preference -->
+    <string-array name="theme_name">
+        <item>Classic</item>
+        <item>Alex-Python</item>
+        <item>Alex-Glass</item>
+        <item>Nekrod-Snakes</item>
+    </string-array>
+
+
+</resources>

@@ -42,4 +42,24 @@
     <string name="menu_jsonlogs">JSON Logs</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_login">Login / Logout</string>
+    <!-- Preference Titles -->
+    <string name="server_header">Server</string>
+    <string name="design_header">Design</string>
+    <string name="logs_header">Logs</string>
+
+    <!-- Server Preferences -->
+    <string name="server_address">Server address</string>
+    <string name="server_port">Server port</string>
+    <string name="server_secure">Secure sockets</string>
+    <string name="server_reconnect">Auto reconnect to server</string>
+
+    <!-- Logs Preferences -->
+    <string name="logs_scroll">Auto scroll logs</string>
+    <string name="safe_scrolling">Safe scrolling</string>
+    <string name="safe_scroll_on">Scroll only from last position
+    </string>
+    <string name="safe_scroll_off">Scroll from any position</string>
+
+    <!-- Design Preferences -->
+    <string name="themes_messages">Themes of messages ballons</string>
 </resources>

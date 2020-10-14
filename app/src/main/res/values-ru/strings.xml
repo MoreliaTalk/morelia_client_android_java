@@ -39,5 +39,17 @@
     <string name="navigation_drawer_open">Открыть меню навигации</string>
     <string name="navigation_drawer_close">Закрыть меню навигации</string>
     <string name="nav_header_desc">Навигация</string>
+    <string name="server_port">Порт на сервере</string>
+    <string name="server_reconnect">Автоматически переподключаться</string>
+    <string name="logs_scroll">Автоматически прокручивать лог</string>
+    <string name="logs_header">Логи</string>
+    <string name="themes_messages">Внешний вид сообщений</string>
+    <string name="server_header">Сервер</string>
+    <string name="design_header">Внешний вид</string>
+    <string name="server_address">Адрес сервера</string>
+    <string name="server_secure">Зашифрованное соединение</string>
+    <string name="safe_scrolling">Безопасная прокрутка</string>
+    <string name="safe_scroll_on">Прокручивать только из нижней позиции</string>
+    <string name="safe_scroll_off">Прокручивать всегда</string>
 
 </resources>
