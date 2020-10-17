@@ -51,5 +51,6 @@
     <string name="safe_scrolling">Безопасная прокрутка</string>
     <string name="safe_scroll_on">Прокручивать только из нижней позиции</string>
     <string name="safe_scroll_off">Прокручивать всегда</string>
+    <string name="auth_status_ok">Auth success</string>
 
 </resources>

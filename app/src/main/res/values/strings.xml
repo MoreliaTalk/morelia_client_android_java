@@ -62,4 +62,5 @@
 
     <!-- Design Preferences -->
     <string name="themes_messages">Themes of messages ballons</string>
+    <string name="auth_status_ok">Auth success</string>
 </resources>

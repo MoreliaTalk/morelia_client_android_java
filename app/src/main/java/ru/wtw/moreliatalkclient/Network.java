@@ -133,12 +133,12 @@ public class Network {
 
                 @Override
                 public void onMessage(String message) {
+                    if (showJSON) {
+                        outChat("", "Received: " + message, "");
+                    }
                     String cleanmessage = message.replaceAll("\\\\n", "").replaceAll("\\\\", "");
                     cleanmessage = cleanmessage.startsWith("\"") ? cleanmessage.substring(1) : cleanmessage;
                     cleanmessage = cleanmessage.endsWith("\"") ? cleanmessage.substring(0, cleanmessage.length() - 1) : cleanmessage;
-                    if (showJSON) {
-                        outChat("", "Received: " + cleanmessage, "");
-                    }
                     Protocol protocol = new Gson().fromJson(cleanmessage, Protocol.class);
                     String reply = "";
                     if (protocol.getType().equals("register_user")) {
@@ -149,6 +149,13 @@ public class Network {
                         }
                         if (protocol.getErrors().getCode() == 409)
                             reply = activity.getResources().getString(R.string.auth_status_exist);
+                    }
+                    if (protocol.getType().equals("auth")) {
+                        if (protocol.getErrors().getCode() == 200) {
+                            uuid = protocol.getData().getUser()[0].getUuid();
+                            auth_id = protocol.getData().getUser()[0].getAuth_id();
+                            reply = activity.getResources().getString(R.string.auth_status_ok);
+                        }
                     }
                     if (!showJSON) {
                         outChat("", reply, "");
