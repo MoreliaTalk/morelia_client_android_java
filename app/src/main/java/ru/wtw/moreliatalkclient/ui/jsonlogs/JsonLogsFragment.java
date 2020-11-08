@@ -21,6 +21,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 
 import ru.wtw.moreliatalkclient.DBHelper;
@@ -42,7 +44,6 @@ public class JsonLogsFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(RADIO_JSON_CHANGED)) {
-                Toast.makeText(getContext(), "JSON log updated", Toast.LENGTH_SHORT).show();
                 array_list.clear();
                 array_list.addAll(mydb.getAllJson());
                 arrayAdapter.notifyDataSetChanged();
@@ -54,6 +55,7 @@ public class JsonLogsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         radio = new Radio();
     }
 
@@ -62,7 +64,22 @@ public class JsonLogsFragment extends Fragment {
         jsonLogsViewModel = new
                 ViewModelProvider(this).get(JsonLogsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_jsonlogs, container, false);
-//        final TextView textView = root.findViewById(R.id.text_jsonlogs);
+
+        FloatingActionButton fab = root.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mydb.clearJSON();
+                array_list.clear();
+                array_list.addAll(mydb.getAllJson());
+                arrayAdapter.notifyDataSetChanged();
+                Toast.makeText(getContext(), "Logs cleared", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+        //        final TextView textView = root.findViewById(R.id.text_jsonlogs);
         mydb = new DBHelper(getContext());
         array_list = mydb.getAllJson();
         arrayAdapter = new ArrayAdapter(getContext(),

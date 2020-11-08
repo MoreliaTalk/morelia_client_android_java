@@ -64,7 +64,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 editor.putBoolean("rawjson", rawJSON);
                 editor.putInt("theme", themeIndex);
                 switch (v.getId()) {
-                    case R.id.btnLogin: {
+                    case R.id.btnNewFlow: {
                         intent.putExtra("register", false);
                         editor.apply();
                         startActivity(intent);
@@ -87,7 +87,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
             settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
-            Button btnLogin = findViewById(R.id.btnLogin);
+            Button btnLogin = findViewById(R.id.btnNewFlow);
             btnLogin.setOnClickListener(this);
             Button btnRegister = findViewById(R.id.btnRegister);
             btnRegister.setOnClickListener(this);

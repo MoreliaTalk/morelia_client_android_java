@@ -214,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         userName.setText(userSession.getName());
         userStatus.setText(userSession.getLogin()+"@"+userSession.getServer());
         navigationView.getMenu().findItem(R.id.nav_register).setVisible(false);
+        navigationView.getMenu().findItem(R.id.nav_newflow).setVisible(true);
         navigationView.getMenu().findItem(R.id.nav_login).setTitle(getResources().getString(R.string.menu_logout));
         navigationView.getMenu().findItem(R.id.nav_login).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_morelia_logout));
     }
@@ -224,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         userName.setText("");
         userStatus.setText("");
         navigationView.getMenu().findItem(R.id.nav_register).setVisible(true);
+        navigationView.getMenu().findItem(R.id.nav_newflow).setVisible(false);
         navigationView.getMenu().findItem(R.id.nav_login).setTitle(getResources().getString(R.string.menu_login));
         navigationView.getMenu().findItem(R.id.nav_login).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_morelia_login));
         network = null;

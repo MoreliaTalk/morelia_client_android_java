@@ -19,7 +19,8 @@
         <item
             android:id="@+id/nav_newflow"
             android:icon="@drawable/ic_morelia_addflow"
-            android:title="@string/menu_newflow" />
+            android:title="@string/menu_newflow"
+            android:visible="false"/>
         <item
             android:id="@+id/nav_jsonlogs"
             android:icon="@android:drawable/stat_notify_error"

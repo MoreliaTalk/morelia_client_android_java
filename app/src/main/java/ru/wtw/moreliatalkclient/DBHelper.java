@@ -47,6 +47,12 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean clearJSON() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_JSON_NAME,null,null);
+        return true;
+    }
+
     public Cursor getJsonData(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + TABLE_JSON_NAME +

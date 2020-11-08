@@ -19,9 +19,9 @@ import ru.wtw.moreliatalkclient.R;
  */
 public class NewFlowFragment extends DialogFragment implements View.OnClickListener {
 
-    private EditText editLogin;
-    private EditText editServer;
-    private EditText editPassword;
+    private EditText editFlowType;
+    private EditText editFlowName;
+    private EditText editFlowInfo;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -76,28 +76,24 @@ public class NewFlowFragment extends DialogFragment implements View.OnClickListe
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_newflow, null);
-        v.findViewById(R.id.btnLogin).setOnClickListener(this);
-        editLogin=v.findViewById(R.id.editFlowType);
-        editPassword=v.findViewById(R.id.editFlowInfo);
-        editServer=v.findViewById(R.id.editFlowName);
+        v.findViewById(R.id.btnNewFlow).setOnClickListener(this);
+        editFlowType =v.findViewById(R.id.editFlowType);
+        editFlowInfo =v.findViewById(R.id.editFlowInfo);
+        editFlowName =v.findViewById(R.id.editFlowName);
         return v;
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnLogin: {
+            case R.id.btnNewFlow: {
                 Integer EmptyFieldsCount=0;
-                if (isEmpty(editServer)) {
-                    editServer.setError(getString(R.string.cannot_be_empty));
+                if (isEmpty(editFlowName)) {
+                    editFlowName.setError(getString(R.string.cannot_be_empty));
                     EmptyFieldsCount++;
                 }
-                if (isEmpty(editLogin)) {
-                    editLogin.setError(getString(R.string.cannot_be_empty));
-                    EmptyFieldsCount++;
-                }
-                if (isEmpty(editPassword)) {
-                    editPassword.setError(getString(R.string.cannot_be_empty));
+                if (isEmpty(editFlowType)) {
+                    editFlowType.setError(getString(R.string.cannot_be_empty));
                     EmptyFieldsCount++;
                 }
                 if (EmptyFieldsCount>0) {
@@ -105,8 +101,8 @@ public class NewFlowFragment extends DialogFragment implements View.OnClickListe
                             R.string.all_fields_must_be_filled, Toast.LENGTH_LONG).show();
                 } else {
                     NewFlowDialogListener listener = (NewFlowDialogListener) getActivity();
-                    listener.onNewFlowDialog(editServer.getText().toString(),
-                            editLogin.getText().toString(),editPassword.getText().toString());
+                    listener.onNewFlowDialog(editFlowName.getText().toString(),
+                            editFlowType.getText().toString(), editFlowInfo.getText().toString());
                     dismiss();
                 }
             }

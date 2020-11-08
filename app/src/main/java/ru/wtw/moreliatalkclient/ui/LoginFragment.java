@@ -76,7 +76,7 @@ public class LoginFragment extends DialogFragment implements View.OnClickListene
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_login, null);
-        v.findViewById(R.id.btnLogin).setOnClickListener(this);
+        v.findViewById(R.id.btnNewFlow).setOnClickListener(this);
         editLogin=v.findViewById(R.id.editFlowType);
         editPassword=v.findViewById(R.id.editFlowInfo);
         editServer=v.findViewById(R.id.editFlowName);
@@ -86,7 +86,7 @@ public class LoginFragment extends DialogFragment implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnLogin: {
+            case R.id.btnNewFlow: {
                 Integer EmptyFieldsCount=0;
                 if (isEmpty(editServer)) {
                     editServer.setError(getString(R.string.cannot_be_empty));
