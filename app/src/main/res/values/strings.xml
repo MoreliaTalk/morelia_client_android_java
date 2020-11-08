@@ -3,11 +3,11 @@
     <string name="auth">Authorization</string>
     <string name="auth_hint">Please enter your username and password</string>
     <string name="servername">Server</string>
-    <string name="username">Username</string>
+    <string name="username">Name</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="cancel">Cancel</string>
-    <string name="default_server" translatable="false">ws://m.wtw.ru/ws</string>
+    <string name="default_server" translatable="false">192.168.60.173</string>
     <string name="default_username" translatable="false">Testuser</string>
     <string name="default_password" translatable="false">123456</string>
     <string name="auth_status_true">Authorization successfully</string>
@@ -24,7 +24,7 @@
     <string name="switch_new_design">Show chat in new design</string>
     <string name="register">Register</string>
     <string name="email">E-mail</string>
-    <string name="email_hint">For registration only</string>
+    <string name="email_hint" translatable="false">your_mail@server.com</string>
     <string name="loginname">Login</string>
     <string name="themes">Theme</string>
     <string name="send">Send</string>
@@ -41,7 +41,8 @@
     <string name="menu_home">Chats</string>
     <string name="menu_jsonlogs">JSON Logs</string>
     <string name="menu_settings">Settings</string>
-    <string name="menu_login">Login / Logout</string>
+    <string name="menu_login">Login</string>
+    <string name="menu_logout">Logout</string>
     <!-- Preference Titles -->
     <string name="server_header">Server</string>
     <string name="design_header">Design</string>
@@ -63,4 +64,14 @@
     <!-- Design Preferences -->
     <string name="themes_messages">Themes of messages ballons</string>
     <string name="auth_status_ok">Auth success</string>
+    <string name="menu_register">Register new account</string>
+    <string name="menu_newflow">Create new flow</string>
+    <!-- Strings related to login -->
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="register_dialog">Register</string>
+    <string name="name_hint">Your name</string>
+    <string name="password_hint">Password</string>
+    <string name="login_hint">Login</string>
+    <string name="all_fields_must_be_filled">All fields must be filled</string>
+    <string name="cannot_be_empty">Cannot be empty</string>
 </resources>

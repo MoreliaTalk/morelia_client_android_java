@@ -106,6 +106,10 @@ public class Network {
         }, 1000);
     }
 
+    public void disconnect(){
+        socket.close();
+    }
+
     public void connect() {
         if (socketURI == null) {
             try {
@@ -133,9 +137,7 @@ public class Network {
 
                 @Override
                 public void onMessage(String message) {
-                    if (showJSON) {
-                        outChat("", "Received: " + message, "");
-                    }
+                    outJson("Received: " + message);
                     String cleanmessage = message.replaceAll("\\\\n", "").replaceAll("\\\\", "");
                     cleanmessage = cleanmessage.startsWith("\"") ? cleanmessage.substring(1) : cleanmessage;
                     cleanmessage = cleanmessage.endsWith("\"") ? cleanmessage.substring(0, cleanmessage.length() - 1) : cleanmessage;
@@ -149,6 +151,7 @@ public class Network {
                         }
                         if (protocol.getErrors().getCode() == 409)
                             reply = activity.getResources().getString(R.string.auth_status_exist);
+                        outRegisterResponse(protocol.getErrors().getCode());
                     }
                     if (protocol.getType().equals("auth")) {
                         if (protocol.getErrors().getCode() == 200) {
@@ -156,6 +159,7 @@ public class Network {
                             auth_id = protocol.getData().getUser()[0].getAuth_id();
                             reply = activity.getResources().getString(R.string.auth_status_ok);
                         }
+                        outAuthResponse(protocol.getErrors().getCode());
                     }
                     if (!showJSON) {
                         outChat("", reply, "");
@@ -168,8 +172,6 @@ public class Network {
                 public void onMessage(ByteBuffer bytebuffer) {
                     Log.i("SERVER", "Message byte buffer, converting to string");
                     String message = StandardCharsets.UTF_8.decode(bytebuffer).toString();
-
-
                     onMessage(message);
                 }
 
@@ -213,6 +215,47 @@ public class Network {
                 }
             });
         }
+        if (activity.getClass().toString().equals("class ru.wtw.moreliatalkclient.MainActivity")) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((MainActivity) activity).onMessage(user, text, time);
+                }
+            });
+        }
+    }
+
+    public void outJson(final String json) {
+        if (activity.getClass().toString().equals("class ru.wtw.moreliatalkclient.MainActivity")) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((MainActivity) activity).onJson(json);
+                }
+            });
+        }
+    }
+
+    public void outRegisterResponse(final int code) {
+        if (activity.getClass().toString().equals("class ru.wtw.moreliatalkclient.MainActivity")) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((MainActivity) activity).onRegisterResponse(code);
+                }
+            });
+        }
+    }
+
+    public void outAuthResponse(final int code) {
+        if (activity.getClass().toString().equals("class ru.wtw.moreliatalkclient.MainActivity")) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((MainActivity) activity).onAuthResponse(code);
+                }
+            });
+        }
     }
 
     public void sendReg () {
@@ -230,7 +273,7 @@ public class Network {
         Gson gson = new Gson();
         String json = gson.toJson(protocol);
         if (socket != null && socket.isOpen()) {
-            if (showJSON) outChat("", "Sending: "+json, "");
+            outJson( "Sending: " + json );
             Log.i("SERVER","Send reg");
             socket.send(json);
         }
@@ -249,7 +292,7 @@ public class Network {
         Gson gson = new Gson();
         String json = gson.toJson(protocol);
         if (socket != null && socket.isOpen()) {
-            if (showJSON) outChat("","Sending: "+json, "");
+            outJson( "Sending: " + json );
             Log.i("SERVER","Send auth");
             socket.send(json);
         }

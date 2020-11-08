@@ -4,7 +4,7 @@
     <string name="auth">Авторизация</string>
     <string name="auth_hint">Пожалуйста введите имя пользователя и пароль</string>
     <string name="servername">Сервер</string>
-    <string name="username">Имя пользователя</string>
+    <string name="username">Имя</string>
     <string name="password">Пароль</string>
     <string name="login">Подключиться</string>
     <string name="cancel">Отмена</string>
@@ -22,7 +22,6 @@
     <string name="switch_new_design">Новый дизайн чата</string>
     <string name="register">Регистрация</string>
     <string name="email">Эл. почта</string>
-    <string name="email_hint">Только при регистрации</string>
     <string name="loginname">Логин</string>
     <string name="themes">Тема оформления</string>
     <string name="send">Send</string>
@@ -35,7 +34,7 @@
     <string name="menu_jsonlogs">Логи JSON</string>
     <string name="menu_settings">Настройки</string>
     <string name="title_activity_main">MoreliaTalk</string>
-    <string name="menu_login">Login / Logout</string>
+    <string name="menu_login">Подключиться</string>
     <string name="navigation_drawer_open">Открыть меню навигации</string>
     <string name="navigation_drawer_close">Закрыть меню навигации</string>
     <string name="nav_header_desc">Навигация</string>
@@ -52,5 +51,14 @@
     <string name="safe_scroll_on">Прокручивать только из нижней позиции</string>
     <string name="safe_scroll_off">Прокручивать всегда</string>
     <string name="auth_status_ok">Auth success</string>
+    <string name="menu_register">Регистрация</string>
+    <string name="menu_newflow">Создать чат</string>
+    <string name="register_dialog">Register</string>
+    <string name="login_hint">Логин</string>
+    <string name="password_hint">Пароль</string>
+    <string name="name_hint">Ваше имя</string>
+    <string name="all_fields_must_be_filled">Все поля обязательны для заполенения</string>
+    <string name="cannot_be_empty">Не может быть пустым</string>
+    <string name="menu_logout">Отключиться</string>
 
 </resources>

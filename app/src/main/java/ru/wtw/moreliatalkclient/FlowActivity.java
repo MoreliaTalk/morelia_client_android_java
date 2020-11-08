@@ -108,7 +108,6 @@ public class FlowActivity extends AppCompatActivity {
         });
     }
 
-
     public void onMessage(String user, String text, String time) {
         int type = MessageAdapter.TYPE_SERVICE;
         if (!user.equals("")) {

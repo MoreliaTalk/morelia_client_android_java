@@ -6,12 +6,20 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_login"
-            android:icon="@android:drawable/ic_lock_idle_lock"
+            android:icon="@drawable/ic_morelia_login"
             android:title="@string/menu_login" />
         <item
+            android:id="@+id/nav_register"
+            android:icon="@drawable/ic_morelia_register"
+            android:title="@string/menu_register" />
+        <item
             android:id="@+id/nav_flowlist"
-            android:icon="@android:drawable/stat_notify_chat"
+            android:icon="@drawable/ic_morelia_chats"
             android:title="@string/menu_home" />
+        <item
+            android:id="@+id/nav_newflow"
+            android:icon="@drawable/ic_morelia_addflow"
+            android:title="@string/menu_newflow" />
         <item
             android:id="@+id/nav_jsonlogs"
             android:icon="@android:drawable/stat_notify_error"
