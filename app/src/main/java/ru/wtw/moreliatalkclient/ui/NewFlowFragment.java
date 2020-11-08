@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
@@ -22,6 +23,7 @@ public class NewFlowFragment extends DialogFragment implements View.OnClickListe
     private EditText editFlowType;
     private EditText editFlowName;
     private EditText editFlowInfo;
+    private Spinner spinnerFlowType;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -77,7 +79,7 @@ public class NewFlowFragment extends DialogFragment implements View.OnClickListe
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_newflow, null);
         v.findViewById(R.id.btnNewFlow).setOnClickListener(this);
-        editFlowType =v.findViewById(R.id.editFlowType);
+        spinnerFlowType =v.findViewById(R.id.spinnerFlowType);
         editFlowInfo =v.findViewById(R.id.editFlowInfo);
         editFlowName =v.findViewById(R.id.editFlowName);
         return v;
@@ -92,17 +94,25 @@ public class NewFlowFragment extends DialogFragment implements View.OnClickListe
                     editFlowName.setError(getString(R.string.cannot_be_empty));
                     EmptyFieldsCount++;
                 }
-                if (isEmpty(editFlowType)) {
-                    editFlowType.setError(getString(R.string.cannot_be_empty));
+
+                int spinner_pos = spinnerFlowType.getSelectedItemPosition();
+                String[] type_values = getResources().getStringArray(R.array.flow_type_values);
+                String type = type_values[spinner_pos];
+
+                if (isEmpty(editFlowName)) {
+                    editFlowName.setError(getString(R.string.cannot_be_empty));
                     EmptyFieldsCount++;
+                }
+                String info = "";
+                if (!isEmpty(editFlowInfo)) {
+                    info = editFlowInfo.getText().toString();
                 }
                 if (EmptyFieldsCount>0) {
                     Toast.makeText(getActivity(),
-                            R.string.all_fields_must_be_filled, Toast.LENGTH_LONG).show();
+                            R.string.new_flow_name_must_be_filled, Toast.LENGTH_LONG).show();
                 } else {
                     NewFlowDialogListener listener = (NewFlowDialogListener) getActivity();
-                    listener.onNewFlowDialog(editFlowName.getText().toString(),
-                            editFlowType.getText().toString(), editFlowInfo.getText().toString());
+                    listener.onNewFlowDialog(editFlowName.getText().toString(),type, info);
                     dismiss();
                 }
             }

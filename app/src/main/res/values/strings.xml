@@ -81,4 +81,5 @@
     <string name="new_flow_name_hint">Flow name</string>
     <string name="new_flow_name">Name</string>
     <string name="new_flow_create">Create</string>
+    <string name="new_flow_name_must_be_filled">Flow name must be filled</string>
 </resources>

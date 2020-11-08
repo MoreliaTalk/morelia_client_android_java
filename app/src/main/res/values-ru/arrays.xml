@@ -1,10 +1,10 @@
 <resources>
     <!-- WSS Preference -->
     <string-array name="wss_entries">
-        <item>Use secure sockets only</item>
-        <item>Try secure sockets first</item>
-        <item>Try unsecure sockets first</item>
-        <item>Use unsecure sockets only</item>
+        <item>Только безопасные сокеты</item>
+        <item>Сначала безопасные сокеты</item>
+        <item>Сначала небезопасные сокеты</item>
+        <item>Только небезопасные сокеты</item>
     </string-array>
 
     <string-array name="wss_values">
@@ -24,8 +24,8 @@
 
     <!-- Flow type Preference -->
     <string-array name="flow_type_names">
-        <item>Group</item>
-        <item>Channel</item>
+        <item>Группа</item>
+        <item>Канал</item>
     </string-array>
 
     <string-array name="flow_type_values">
