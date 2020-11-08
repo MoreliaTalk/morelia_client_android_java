@@ -42,6 +42,14 @@ public class UserSession {
         this.authed = false;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getLogin() {
         return login;
     }

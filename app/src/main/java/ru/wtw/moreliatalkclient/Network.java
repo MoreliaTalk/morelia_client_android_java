@@ -96,6 +96,10 @@ public class Network {
         return isConnected;
     }
 
+    public long getUuid() {
+        return uuid;
+    }
+
     public void reconnect(){
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
@@ -160,6 +164,14 @@ public class Network {
                             reply = activity.getResources().getString(R.string.auth_status_ok);
                         }
                         outAuthResponse(protocol.getErrors().getCode());
+                    }
+                    if (protocol.getType().equals("user_info")) {
+                        if (protocol.getErrors().getCode() == 200) {
+                            String req_login = protocol.getData().getUser()[0].getLogin();
+                            String req_username = protocol.getData().getUser()[0].getUsername();
+                            String req_email = protocol.getData().getUser()[0].getEmail();
+                            outUserInfoResponse(req_login,req_username,req_email);
+                        }
                     }
                     if (!showJSON) {
                         outChat("", reply, "");
@@ -258,6 +270,18 @@ public class Network {
         }
     }
 
+    public void outUserInfoResponse(final String login, final String username, final String email) {
+        if (activity.getClass().toString().equals("class ru.wtw.moreliatalkclient.MainActivity")) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((MainActivity) activity).onUserInfoResponse(login, username, email);
+                }
+            });
+        }
+    }
+
+
     public void sendReg () {
         User[] user = new User[1];
         user[0] = new User();
@@ -333,6 +357,25 @@ public class Network {
                 Log.i("SERVER",json);
                 socket.send(json);
             }
+        }
+    }
+
+    public void sendRequestUserInfo (long uuid) {
+        User[] user = new User[1];
+        user[0] = new User();
+        user[0].setUuid(uuid);
+        user[0].setAuth_id(auth_id);
+        Data data = new Data();
+        data.setUser(user);
+        Protocol protocol = new Protocol();
+        protocol.setType("user_info");
+        protocol.setData(data);
+        Gson gson = new Gson();
+        String json = gson.toJson(protocol);
+        if (socket != null && socket.isOpen()) {
+            outJson( "Sending: " + json );
+            Log.i("SERVER","Send reg");
+            socket.send(json);
         }
     }
 

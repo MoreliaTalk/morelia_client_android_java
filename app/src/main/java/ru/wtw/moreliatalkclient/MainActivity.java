@@ -234,10 +234,20 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         }
     }
 
+    public void onUserInfoResponse(String login, String username, String email) {
+        if (login.equals(userSession.getLogin())) {
+            userName.setText(username);
+            userSession.setName(username);
+            userSession.setEmail(email);
+        }
+    }
+
+
     public void onAuthResponse(int code) {
         switch (code) {
             case 200: {
                 onLoggedIn();
+                network.sendRequestUserInfo(network.getUuid());
                 break;
             }
             case 403: {
