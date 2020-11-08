@@ -26,15 +26,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import ru.wtw.moreliatalkclient.ui.LoginFragment;
+import ru.wtw.moreliatalkclient.ui.NewFlowFragment;
 import ru.wtw.moreliatalkclient.ui.RegisterFragment;
 import ru.wtw.moreliatalkclient.ui.jsonlogs.JsonLogsFragment;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.LoginDialogListener,
-        RegisterFragment.RegisterDialogListener {
+        RegisterFragment.RegisterDialogListener, NewFlowFragment.NewFlowDialogListener {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private DialogFragment dlgRegister;
-    private DialogFragment dlgLogin;
     private NavigationView navigationView;
     private ImageView connectStatus;
     private TextView userName;
@@ -118,6 +117,10 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
                             DialogFragment dlgRegister = new RegisterFragment();
                             dlgRegister.show(getSupportFragmentManager(), dlgRegister.getClass().getName());
                         }
+                        if (id == R.id.nav_newflow) {
+                            DialogFragment dlgNewFlow = new NewFlowFragment();
+                            dlgNewFlow.show(getSupportFragmentManager(), dlgNewFlow.getClass().getName());
+                        }
                         boolean handled = NavigationUI.onNavDestinationSelected(menuItem, navController);
                         if (handled) {
                             ViewParent parent = navigationView.getParent();
@@ -152,6 +155,16 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+
+    @Override
+    public void onNewFlowDialog(String name, String type, String info) {
+        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout.closeDrawers();
+        if (network != null) {
+            network.createFlow(name, type, info);
+        }
     }
 
     @Override
@@ -213,12 +226,14 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         navigationView.getMenu().findItem(R.id.nav_register).setVisible(true);
         navigationView.getMenu().findItem(R.id.nav_login).setTitle(getResources().getString(R.string.menu_login));
         navigationView.getMenu().findItem(R.id.nav_login).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_morelia_login));
+        network = null;
     }
 
     public void onRegisterResponse(int code) {
         switch (code) {
             case 201: {
                 onLoggedIn();
+                network.sendRequestAllFlow();
                 break;
             }
             case 409: {
@@ -248,6 +263,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
             case 200: {
                 onLoggedIn();
                 network.sendRequestUserInfo(network.getUuid());
+                network.sendRequestAllFlow();
                 break;
             }
             case 403: {

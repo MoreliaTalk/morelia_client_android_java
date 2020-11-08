@@ -1,13 +1,10 @@
 package ru.wtw.moreliatalkclient.ui;
 
-import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,9 +81,9 @@ public class RegisterFragment extends DialogFragment implements View.OnClickList
         View v = inflater.inflate(R.layout.fragment_register, null);
         v.findViewById(R.id.btnRegister).setOnClickListener(this);
         editUsername=v.findViewById(R.id.editUsername);
-        editLogin=v.findViewById(R.id.editLogin);
-        editPassword=v.findViewById(R.id.editPassword);
-        editServer=v.findViewById(R.id.editServername);
+        editLogin=v.findViewById(R.id.editFlowType);
+        editPassword=v.findViewById(R.id.editFlowInfo);
+        editServer=v.findViewById(R.id.editFlowName);
         editUsername=v.findViewById(R.id.editUsername);
         editEmail=v.findViewById(R.id.editEmail);
         return v;

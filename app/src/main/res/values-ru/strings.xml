@@ -60,5 +60,12 @@
     <string name="all_fields_must_be_filled">Все поля обязательны для заполенения</string>
     <string name="cannot_be_empty">Не может быть пустым</string>
     <string name="menu_logout">Отключиться</string>
+    <string name="new_flow_info_hint">Информация о чате</string>
+    <string name="new_flow_type_hint">Тип чата</string>
+    <string name="new_flow_name">Название</string>
+    <string name="new_flow_name_hint">Название чата</string>
+    <string name="new_flow_type">Тип</string>
+    <string name="new_flow_info">Информация</string>
+    <string name="new_flow_create">Создать</string>
 
 </resources>

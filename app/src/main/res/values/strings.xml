@@ -74,4 +74,11 @@
     <string name="login_hint">Login</string>
     <string name="all_fields_must_be_filled">All fields must be filled</string>
     <string name="cannot_be_empty">Cannot be empty</string>
+    <string name="new_flow_info_hint">Flow info</string>
+    <string name="new_flow_info">Info</string>
+    <string name="new_flow_type_hint">Flow type</string>
+    <string name="new_flow_type">Type</string>
+    <string name="new_flow_name_hint">Flow name</string>
+    <string name="new_flow_name">Name</string>
+    <string name="new_flow_create">Create</string>
 </resources>

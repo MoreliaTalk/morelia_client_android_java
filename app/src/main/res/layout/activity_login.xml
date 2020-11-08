@@ -47,7 +47,7 @@
                     android:text="@string/servername" />
 
                 <EditText
-                    android:id="@+id/editServername"
+                    android:id="@+id/editFlowName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -67,7 +67,7 @@
                     android:text="@string/loginname" />
 
                 <EditText
-                    android:id="@+id/editLogin"
+                    android:id="@+id/editFlowType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -86,7 +86,7 @@
                     android:text="@string/password" />
 
                 <EditText
-                    android:id="@+id/editPassword"
+                    android:id="@+id/editFlowInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"

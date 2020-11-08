@@ -14,10 +14,10 @@ import ru.wtw.moreliatalkclient.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link LoginFragment#newInstance} factory method to
+ * Use the {@link NewFlowFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LoginFragment extends DialogFragment implements View.OnClickListener {
+public class NewFlowFragment extends DialogFragment implements View.OnClickListener {
 
     private EditText editLogin;
     private EditText editServer;
@@ -32,7 +32,7 @@ public class LoginFragment extends DialogFragment implements View.OnClickListene
     private String mParam1;
     private String mParam2;
 
-    public LoginFragment() {
+    public NewFlowFragment() {
         // Required empty public constructor
     }
 
@@ -45,8 +45,8 @@ public class LoginFragment extends DialogFragment implements View.OnClickListene
      * @return A new instance of fragment RegisterFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LoginFragment newInstance(String param1, String param2) {
-        LoginFragment fragment = new LoginFragment();
+    public static NewFlowFragment newInstance(String param1, String param2) {
+        NewFlowFragment fragment = new NewFlowFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -54,8 +54,8 @@ public class LoginFragment extends DialogFragment implements View.OnClickListene
         return fragment;
     }
 
-    public interface LoginDialogListener {
-        void onLoginDialog(String Server, String Login, String Password);
+    public interface NewFlowDialogListener {
+        void onNewFlowDialog(String Server, String Login, String Password);
     }
 
     private boolean isEmpty(EditText etText) {
@@ -75,7 +75,7 @@ public class LoginFragment extends DialogFragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_login, null);
+        View v = inflater.inflate(R.layout.fragment_newflow, null);
         v.findViewById(R.id.btnLogin).setOnClickListener(this);
         editLogin=v.findViewById(R.id.editFlowType);
         editPassword=v.findViewById(R.id.editFlowInfo);
@@ -104,8 +104,8 @@ public class LoginFragment extends DialogFragment implements View.OnClickListene
                     Toast.makeText(getActivity(),
                             R.string.all_fields_must_be_filled, Toast.LENGTH_LONG).show();
                 } else {
-                    LoginDialogListener listener = (LoginDialogListener) getActivity();
-                    listener.onLoginDialog(editServer.getText().toString(),
+                    NewFlowDialogListener listener = (NewFlowDialogListener) getActivity();
+                    listener.onNewFlowDialog(editServer.getText().toString(),
                             editLogin.getText().toString(),editPassword.getText().toString());
                     dismiss();
                 }

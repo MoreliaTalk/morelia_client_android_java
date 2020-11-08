@@ -20,10 +20,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         @Override
         public void onClick(View v){
-            EditText editServername = findViewById(R.id.editServername);
+            EditText editServername = findViewById(R.id.editFlowName);
             EditText editUsername = findViewById(R.id.editUsername);
-            EditText editLogin = findViewById(R.id.editLogin);
-            EditText editPassword = findViewById(R.id.editPassword);
+            EditText editLogin = findViewById(R.id.editFlowType);
+            EditText editPassword = findViewById(R.id.editFlowInfo);
             EditText editEmail = findViewById(R.id.editEmail);
             Switch switchReconnect = findViewById(R.id.switchReconnect);
             Switch switchJSON = findViewById(R.id.switchOutJSON);
@@ -93,18 +93,18 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             btnRegister.setOnClickListener(this);
 
             if (settings.contains("servername")) {
-                ((EditText)findViewById(R.id.editServername)).setText(settings.getString("servername", ""));
+                ((EditText)findViewById(R.id.editFlowName)).setText(settings.getString("servername", ""));
             }
             if (settings.contains("login")) {
-                ((EditText)findViewById(R.id.editLogin)).setText(settings.getString("login", ""));
+                ((EditText)findViewById(R.id.editFlowType)).setText(settings.getString("login", ""));
             } else if (settings.contains("username")) {
-                ((EditText)findViewById(R.id.editLogin)).setText(settings.getString("username", ""));
+                ((EditText)findViewById(R.id.editFlowType)).setText(settings.getString("username", ""));
             }
             if (settings.contains("username")) {
                 ((EditText)findViewById(R.id.editUsername)).setText(settings.getString("username", ""));
             }
             if (settings.contains("password")) {
-                ((EditText)findViewById(R.id.editPassword)).setText(settings.getString("password", ""));
+                ((EditText)findViewById(R.id.editFlowInfo)).setText(settings.getString("password", ""));
             }
             if (settings.contains("email")) {
                 ((EditText)findViewById(R.id.editEmail)).setText(settings.getString("email", ""));

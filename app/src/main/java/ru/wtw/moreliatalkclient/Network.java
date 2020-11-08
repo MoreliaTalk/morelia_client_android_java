@@ -352,11 +352,36 @@ public class Network {
             Gson gson = new Gson();
             String json = gson.toJson(protocol);
             if (socket != null && socket.isOpen()) {
-                if (showJSON) outChat("","Sending: "+json, "");
+                outJson( "Sending: " + json );
                 Log.i("SERVER","Send text");
                 Log.i("SERVER",json);
                 socket.send(json);
             }
+        }
+    }
+
+    public void createFlow(String name, String type, String info) {
+        User[] user = new User[1];
+        user[0] = new User();
+        user[0].setAuth_id(auth_id);
+        user[0].setUuid(uuid);
+        Flow[] flow = new Flow[1];
+        flow[0] = new Flow();
+        flow[0].setTitle(name);
+        flow[0].setType(type);
+        flow[0].setInfo(info);
+        Data data = new Data();
+        data.setUser(user);
+        data.setFlow(flow);
+        Protocol protocol = new Protocol();
+        protocol.setType("add_flow");
+        protocol.setData(data);
+        Gson gson = new Gson();
+        String json = gson.toJson(protocol);
+        if (socket != null && socket.isOpen()) {
+            outJson( "Sending: " + json );
+            Log.i("SERVER","Create flow");
+            socket.send(json);
         }
     }
 
@@ -374,9 +399,29 @@ public class Network {
         String json = gson.toJson(protocol);
         if (socket != null && socket.isOpen()) {
             outJson( "Sending: " + json );
-            Log.i("SERVER","Send reg");
+            Log.i("SERVER","Request User Info");
             socket.send(json);
         }
     }
+
+    public void sendRequestAllFlow() {
+        User[] user = new User[1];
+        user[0] = new User();
+        user[0].setUuid(uuid);
+        user[0].setAuth_id(auth_id);
+        Data data = new Data();
+        data.setUser(user);
+        Protocol protocol = new Protocol();
+        protocol.setType("all_flow");
+        protocol.setData(data);
+        Gson gson = new Gson();
+        String json = gson.toJson(protocol);
+        if (socket != null && socket.isOpen()) {
+            outJson( "Sending: " + json );
+            Log.i("SERVER","Request All Flows");
+            socket.send(json);
+        }
+    }
+
 
 }
