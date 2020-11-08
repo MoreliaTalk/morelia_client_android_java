@@ -9,9 +9,6 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.ContactsContract;
-
-import ru.wtw.moreliatalkclient.ui.jsonlogs.JsonLogsFragment;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -29,7 +26,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // TODO Auto-generated method stub
         db.execSQL(
                 "create table " + TABLE_JSON_NAME + "(" + COLUMN_JSON_ID + " integer primary key, " +
                         COLUMN_JSON_DIRECTION + " integer, " + COLUMN_JSON_TEXT + " text )"
@@ -38,7 +34,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // TODO Auto-generated method stub
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_JSON_NAME);
         onCreate(db);
     }

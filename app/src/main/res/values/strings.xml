@@ -66,8 +66,8 @@
     <string name="auth_status_ok">Auth success</string>
     <string name="menu_register">Register new account</string>
     <string name="menu_newflow">Create new flow</string>
+
     <!-- Strings related to login -->
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="register_dialog">Register</string>
     <string name="name_hint">Your name</string>
     <string name="password_hint">Password</string>

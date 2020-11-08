@@ -74,7 +74,6 @@ public class JsonLogsFragment extends Fragment {
         JsonList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                // TODO Auto-generated method stub
                 ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("json", JsonList.getItemAtPosition(position).toString());
                 clipboard.setPrimaryClip(clip);
