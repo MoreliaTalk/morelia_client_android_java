@@ -9,7 +9,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -55,7 +54,6 @@ public class JsonLogsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         radio = new Radio();
     }
 
@@ -86,7 +84,7 @@ public class JsonLogsFragment extends Fragment {
                 android.R.layout.simple_list_item_1,
                 array_list);
 
-        JsonList = (ListView) root.findViewById(R.id.listView1);
+        JsonList = (ListView) root.findViewById(R.id.listViewJsons);
         JsonList.setAdapter(arrayAdapter);
         JsonList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override

@@ -27,6 +27,8 @@ public class Network {
     private URI socketURI;
     private WebSocketClient socket;
 
+    private DBHelper mydb;
+
     // Uncomment and specify in new WebSocketClient(socketURI, perMessageDeflateDraft)  to enable compression
     // private static final Draft perMessageDeflateDraft = new Draft_6455(new PerMessageDeflateExtension());
 
@@ -50,6 +52,7 @@ public class Network {
     private boolean isConnected;
 
     public Network(Activity activity){
+        mydb = new DBHelper(activity);
         this.activity=activity;
         isConnected=false;
     }
@@ -173,6 +176,26 @@ public class Network {
                             outUserInfoResponse(req_login,req_username,req_email);
                         }
                     }
+                    if (protocol.getType().equals("add_flow")) {
+                        if (protocol.getErrors().getCode() == 200) {
+                            for (int i = 0; i < protocol.getData().getFlow().length; i++) {
+                                mydb.insertFlow(Integer.toString(protocol.getData().getFlow()[i].getId()),
+                                        protocol.getData().getFlow()[i].getTitle(),
+                                        protocol.getData().getFlow()[i].getType());
+                            }
+                            outFlowUpdate();
+                        }
+                    }
+                    if (protocol.getType().equals("all_flow")) {
+                        if (protocol.getErrors().getCode() == 200) {
+                            for (int i = 0; i < protocol.getData().getFlow().length; i++) {
+                                mydb.insertFlow(Integer.toString(protocol.getData().getFlow()[i].getId()),
+                                        protocol.getData().getFlow()[i].getTitle(),
+                                        protocol.getData().getFlow()[i].getType());
+                            }
+                            outFlowUpdate();
+                        }
+                    }
                     if (!showJSON) {
                         outChat("", reply, "");
                     }
@@ -243,6 +266,17 @@ public class Network {
                 @Override
                 public void run() {
                     ((MainActivity) activity).onJson(json);
+                }
+            });
+        }
+    }
+
+    public void outFlowUpdate() {
+        if (activity.getClass().toString().equals("class ru.wtw.moreliatalkclient.MainActivity")) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((MainActivity) activity).onFlowsUpdate();
                 }
             });
         }

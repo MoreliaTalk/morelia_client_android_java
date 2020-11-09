@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.flowlist.FlowListFragment">
 
+    <ListView
+        android:id="@+id/listViewFlows"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" >
+    </ListView>
+
+<!--
     <TextView
         android:id="@+id/text_flowlist"
         android:layout_width="match_parent"
@@ -21,5 +30,6 @@
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="center_horizontal"
         android:layout_gravity="center_horizontal" />
+-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,29 +12,46 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_JSON_NAME = "moreliajson.db";
+    public static final String DATABASE_MORELIA = "morelia.db";
+
     public static final String TABLE_JSON_NAME = "json";
     public static final String COLUMN_JSON_ID = "id";
     public static final String COLUMN_JSON_DIRECTION = "direction";
     public static final String COLUMN_JSON_TEXT = "text";
 
+    public static final String TABLE_FLOWS_NAME = "flows";
+    public static final String COLUMN_FLOW_ID = "id";
+    public static final String COLUMN_FLOW_SERVER_ID = "uuid";
+    public static final String COLUMN_FLOW_TITLE = "title";
+    public static final String COLUMN_FLOW_TYPE = "type";
+
     private HashMap hp;
 
     public DBHelper(Context context) {
-        super(context, DATABASE_JSON_NAME , null, 2);
+        super(context, DATABASE_MORELIA , null, 4);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(
-                "create table " + TABLE_JSON_NAME + "(" + COLUMN_JSON_ID + " integer primary key, " +
-                        COLUMN_JSON_DIRECTION + " integer, " + COLUMN_JSON_TEXT + " text )"
+                "create table " + TABLE_JSON_NAME + "(" +
+                        COLUMN_JSON_ID + " integer primary key, " +
+                        COLUMN_JSON_DIRECTION + " integer, " +
+                        COLUMN_JSON_TEXT + " text )"
+        );
+        db.execSQL(
+                "create table " + TABLE_FLOWS_NAME + "(" +
+                        COLUMN_FLOW_ID + " integer primary key, " +
+                        COLUMN_FLOW_SERVER_ID + " text, " +
+                        COLUMN_FLOW_TITLE + " text, " +
+                        COLUMN_FLOW_TYPE + " text )"
         );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_JSON_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FLOWS_NAME);
         onCreate(db);
     }
 
@@ -82,6 +99,50 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return array_list;
     }
+
+    public boolean insertFlow(String id, String title, String type) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_FLOW_SERVER_ID, id);
+        contentValues.put(COLUMN_FLOW_TITLE, title);
+        contentValues.put(COLUMN_FLOW_TYPE, type);
+
+        int u = db.update(TABLE_FLOWS_NAME, contentValues, COLUMN_FLOW_SERVER_ID+"=?", new String[]{id});
+        if (u == 0) {
+            db.insertWithOnConflict(TABLE_FLOWS_NAME, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+        }
+/*
+        db.insert(TABLE_FLOWS_NAME, null, contentValues);
+*/
+        return true;
+    }
+
+    public ArrayList<String> getAllFlow() {
+        ArrayList<String> array_list = new ArrayList<String>();
+
+        //hp = new HashMap();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + TABLE_FLOWS_NAME, null);
+        res.moveToFirst();
+
+        while (res.isAfterLast() == false) {
+            array_list.add("id: "+res.getString(res.getColumnIndex(COLUMN_FLOW_SERVER_ID))+
+                    "    " + res.getString(res.getColumnIndex(COLUMN_FLOW_TITLE))+
+                    " ("+ res.getString(res.getColumnIndex(COLUMN_FLOW_TYPE))+")");
+            res.moveToNext();
+        }
+
+        return array_list;
+    }
+
+    public boolean clearFlows() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_FLOWS_NAME,null,null);
+        return true;
+    }
+
+
 }
 
 /*

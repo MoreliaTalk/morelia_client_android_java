@@ -28,6 +28,7 @@ import androidx.appcompat.widget.Toolbar;
 import ru.wtw.moreliatalkclient.ui.LoginFragment;
 import ru.wtw.moreliatalkclient.ui.NewFlowFragment;
 import ru.wtw.moreliatalkclient.ui.RegisterFragment;
+import ru.wtw.moreliatalkclient.ui.flowlist.FlowListFragment;
 import ru.wtw.moreliatalkclient.ui.jsonlogs.JsonLogsFragment;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.LoginDialogListener,
@@ -41,12 +42,17 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
 
     private Network network;
 
+    private DBHelper mydb;
+
     private UserSession userSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mydb = new DBHelper(this);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Log.i("SERVER", "setup onCreate()");
@@ -208,6 +214,11 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         this.getApplicationContext().sendBroadcast(intent);
     }
 
+    public void onFlowsUpdate() {
+        Intent intent = new Intent(FlowListFragment.RADIO_FLOW_CHANGED);
+        this.getApplicationContext().sendBroadcast(intent);
+    }
+
     public void onLoggedIn() {
         userSession.setAuthed();
         connectStatus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_status_green));
@@ -228,7 +239,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         navigationView.getMenu().findItem(R.id.nav_newflow).setVisible(false);
         navigationView.getMenu().findItem(R.id.nav_login).setTitle(getResources().getString(R.string.menu_login));
         navigationView.getMenu().findItem(R.id.nav_login).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_morelia_login));
+        mydb.clearFlows();
         network = null;
+        onFlowsUpdate();
     }
 
     public void onRegisterResponse(int code) {
