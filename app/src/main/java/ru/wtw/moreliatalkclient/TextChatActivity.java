@@ -78,7 +78,7 @@ public class TextChatActivity extends AppCompatActivity {
                     EditText editSend = findViewById(R.id.editSend);
                     String text=editSend.getText().toString().trim();
                     if (!text.isEmpty()) {
-                        network.sendMessage(text);
+                        network.sendMessage(text,0);
                     }
                     if (network.isNotRawJSON()) {
                         editSend.setText("");

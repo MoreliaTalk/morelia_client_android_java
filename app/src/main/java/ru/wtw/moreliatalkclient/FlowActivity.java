@@ -16,6 +16,8 @@ public class FlowActivity extends AppCompatActivity {
 
     private int themeIndex;
 
+    private int flow_id;
+
     private static final int VERTICAL_ITEM_SPACE = 48;
 
     @Override
@@ -72,6 +74,7 @@ public class FlowActivity extends AppCompatActivity {
         network = new Network(FlowActivity.this);
         if (extras != null) {
             Log.i("SERVER","Extra");
+            flow_id=extras.getInt("flow_id");
             network.setUsername(extras.getString("username"));
             network.setLogin(extras.getString("login"));
             network.setEmail(extras.getString("email"));
@@ -98,7 +101,7 @@ public class FlowActivity extends AppCompatActivity {
                     EditText editSend = findViewById(R.id.editSend);
                     String text=editSend.getText().toString().trim();
                     if (!text.isEmpty()) {
-                        network.sendMessage(text);
+                        network.sendMessage(text, flow_id);
                     }
                     if (network.isNotRawJSON()) {
                         editSend.setText("");

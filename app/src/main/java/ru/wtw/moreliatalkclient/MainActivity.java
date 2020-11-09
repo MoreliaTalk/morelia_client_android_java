@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
 
     private DBHelper mydb;
 
-    private UserSession userSession;
+    public UserSession userSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,8 +208,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
     }
 
     public void onJson(String json) {
-        DBHelper mydb = new DBHelper(this);
-        mydb.insertJSON(json);
         Intent intent = new Intent(JsonLogsFragment.RADIO_JSON_CHANGED);
         this.getApplicationContext().sendBroadcast(intent);
     }

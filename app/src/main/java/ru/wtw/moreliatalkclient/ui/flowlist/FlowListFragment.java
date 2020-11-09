@@ -1,25 +1,38 @@
 package ru.wtw.moreliatalkclient.ui.flowlist;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import ru.wtw.moreliatalkclient.DBHelper;
+import ru.wtw.moreliatalkclient.FlowActivity;
+import ru.wtw.moreliatalkclient.LoginActivity;
+import ru.wtw.moreliatalkclient.MainActivity;
 import ru.wtw.moreliatalkclient.R;
+import ru.wtw.moreliatalkclient.UserSession;
 import ru.wtw.moreliatalkclient.ui.jsonlogs.JsonLogsFragment;
 
 public class FlowListFragment extends Fragment {
@@ -68,6 +81,40 @@ public class FlowListFragment extends Fragment {
 
         FlowList = (ListView) root.findViewById(R.id.listViewFlows);
         FlowList.setAdapter(arrayAdapter);
+
+        FlowList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                String[] words = FlowList.getItemAtPosition(position).toString().split(" ");
+                int flow_id = Integer.valueOf(words[1]);
+                String name = String.join("", Arrays.copyOfRange(words,2, words.length));
+
+                UserSession userSession=((MainActivity) getActivity()).userSession;
+                if (userSession != null) {
+                    if (userSession.isAuthed()) {
+                        Intent intent;
+                        intent = new Intent(((MainActivity) getActivity()), FlowActivity.class);
+                        intent.putExtra("login", userSession.getLogin());
+                        intent.putExtra("username", userSession.getName());
+                        intent.putExtra("password", userSession.getPassword());
+                        intent.putExtra("servername", "ws://" + userSession.getServer() + ":" + "8000" + "/ws");
+                        intent.putExtra("reconnect", true);
+                        intent.putExtra("register", false);
+                        intent.putExtra("flow_id", flow_id);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getContext(), "Login to see chat", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Login to see chat", Toast.LENGTH_SHORT).show();
+                }
+                /*
+
+                Toast.makeText(getContext(), flow_id, Toast.LENGTH_SHORT).show();
+*/
+            }
+        });
 
         return root;
 

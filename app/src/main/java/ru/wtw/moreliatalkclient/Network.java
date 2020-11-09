@@ -261,6 +261,7 @@ public class Network {
     }
 
     public void outJson(final String json) {
+        mydb.insertJSON(json);
         if (activity.getClass().toString().equals("class ru.wtw.moreliatalkclient.MainActivity")) {
             activity.runOnUiThread(new Runnable() {
                 @Override
@@ -357,7 +358,7 @@ public class Network {
     }
 
 
-    public void sendMessage (String text) {
+    public void sendMessage (String text, int flow_id) {
         if (rawJSON) {
             if (socket != null && socket.isOpen()) {
                 if (showJSON) outChat("","Sending RAW: "+text, "");
@@ -372,7 +373,7 @@ public class Network {
             user[0].setUuid(uuid);
             Flow[] flow = new Flow[1];
             flow[0] = new Flow();
-            flow[0].setId(1);
+            flow[0].setId(flow_id);
             Message[] message = new Message[1];
             message[0] = new Message();
             message[0].setText(text);

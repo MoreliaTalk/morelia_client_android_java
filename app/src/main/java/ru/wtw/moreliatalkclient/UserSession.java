@@ -34,6 +34,10 @@ public class UserSession {
         return authed;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public void setAuthed() {
         this.authed = true;
     }
