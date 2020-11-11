@@ -88,9 +88,12 @@ public class FlowListFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 String[] words = FlowList.getItemAtPosition(position).toString().split(" ");
                 int flow_id = Integer.valueOf(words[1]);
-                String name = String.join("", Arrays.copyOfRange(words,2, words.length));
 
                 UserSession userSession=((MainActivity) getActivity()).userSession;
+
+                String error = getString(R.string.ErrorMessage);
+
+
                 if (userSession != null) {
                     if (userSession.isAuthed()) {
                         Intent intent;
@@ -102,6 +105,7 @@ public class FlowListFragment extends Fragment {
                         intent.putExtra("reconnect", true);
                         intent.putExtra("register", false);
                         intent.putExtra("flow_id", flow_id);
+                        intent.putExtra("flow_name", FlowList.getItemAtPosition(position).toString());
                         startActivity(intent);
                     } else {
                         Toast.makeText(getContext(), "Login to see chat", Toast.LENGTH_SHORT).show();

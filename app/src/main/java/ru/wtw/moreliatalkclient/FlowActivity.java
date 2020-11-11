@@ -1,10 +1,12 @@
 package ru.wtw.moreliatalkclient;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -24,6 +26,10 @@ public class FlowActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flow);
+
+        ActionBar actionBar =getSupportActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         RecyclerView flowWindow = findViewById(R.id.flowWindow);
         flowWindow.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_ITEM_SPACE));
@@ -75,6 +81,7 @@ public class FlowActivity extends AppCompatActivity {
         if (extras != null) {
             Log.i("SERVER","Extra");
             flow_id=extras.getInt("flow_id");
+            setTitle(extras.getString("flow_name"));
             network.setUsername(extras.getString("username"));
             network.setLogin(extras.getString("login"));
             network.setEmail(extras.getString("email"));
@@ -86,6 +93,18 @@ public class FlowActivity extends AppCompatActivity {
             network.setRawJSON(extras.getBoolean("rawjson"));
             network.setRegister(extras.getBoolean("register"));
             network.connect();
+        }
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
