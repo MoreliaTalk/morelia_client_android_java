@@ -306,7 +306,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
                 type = MessageAdapter.TYPE_ERROR;
             }
         }
+/*
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+*/
     }
 
 
