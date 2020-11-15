@@ -7,7 +7,7 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="cancel">Cancel</string>
-    <string name="default_server" translatable="false">192.168.60.173</string>
+    <string name="default_server" translatable="false">35.228.157.42</string>
     <string name="default_username" translatable="false">Testuser</string>
     <string name="default_password" translatable="false">123456</string>
     <string name="auth_status_true">Authorization successfully</string>
@@ -82,5 +82,6 @@
     <string name="new_flow_name">Name</string>
     <string name="new_flow_create">Create</string>
     <string name="new_flow_name_must_be_filled">Flow name must be filled</string>
-    <string name="ErrorMessage">Error!</string>
+    <string name="custom_server">Custom server</string>
+    <string name="save_login">Save login</string>
 </resources>

@@ -91,9 +91,6 @@ public class FlowListFragment extends Fragment {
 
                 UserSession userSession=((MainActivity) getActivity()).userSession;
 
-                String error = getString(R.string.ErrorMessage);
-
-
                 if (userSession != null) {
                     if (userSession.isAuthed()) {
                         Intent intent;

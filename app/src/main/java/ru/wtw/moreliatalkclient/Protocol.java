@@ -319,17 +319,17 @@ class Message {
 }
 
 class Data {
-    private String time;
+    private int time;
     private Flow[] flow;
     private Message[] message;
     private User[] user;
     private String meta;
 
-    public String getTime() {
+    public int getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(int time) {
         this.time = time;
     }
 

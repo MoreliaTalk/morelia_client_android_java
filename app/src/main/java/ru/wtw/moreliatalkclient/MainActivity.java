@@ -247,16 +247,20 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
             case 201: {
                 onLoggedIn();
                 network.sendRequestAllFlow();
+//                network.sendRequestAllMessages(57657,0);
+                Toast.makeText(this, "User created and logged in!", Toast.LENGTH_SHORT).show();
                 break;
             }
             case 409: {
                 connectStatus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_status_red));
                 userName.setText("");
                 userStatus.setText("");
+                Toast.makeText(this, "This login already taken!", Toast.LENGTH_SHORT).show();
                 break;
             }
             default: {
                 connectStatus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_status_gray));
+                Toast.makeText(this, "Unknown response!", Toast.LENGTH_SHORT).show();
                 break;
             }
         }
@@ -277,16 +281,22 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
                 onLoggedIn();
                 network.sendRequestUserInfo(network.getUuid());
                 network.sendRequestAllFlow();
+  //              network.sendRequestAllMessages(1,0);
+                Toast.makeText(this, "Auth success!", Toast.LENGTH_SHORT).show();
                 break;
             }
-            case 403: {
+            case 401:
+            case 403:
+            case 404: {
                 connectStatus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_status_red));
                 userName.setText("");
                 userStatus.setText("");
+                Toast.makeText(this, "Wrong username or password!", Toast.LENGTH_SHORT).show();
                 break;
             }
             default: {
                 connectStatus.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_status_gray));
+                Toast.makeText(this, "Unknown response!", Toast.LENGTH_SHORT).show();
                 break;
             }
         }

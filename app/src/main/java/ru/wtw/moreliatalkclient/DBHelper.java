@@ -30,7 +30,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_USER_SERVER_ID = "uuid";
     public static final String COLUMN_USER_NAME = "name";
 
-    public static final String TABLE_MESSAGES_NAME = "flows";
+    public static final String TABLE_MESSAGES_NAME = "messages";
     public static final String COLUMN_MESSAGE_ID = "id";
     public static final String COLUMN_MESSAGE_SERVER_ID = "uuid";
     public static final String COLUMN_MESSAGE_TIME = "time";
@@ -42,7 +42,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private HashMap hp;
 
     public DBHelper(Context context) {
-        super(context, DATABASE_MORELIA , null, 5);
+        super(context, DATABASE_MORELIA , null, 6);
     }
 
     @Override

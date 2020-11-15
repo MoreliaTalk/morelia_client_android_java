@@ -1,6 +1,8 @@
 package ru.wtw.moreliatalkclient.ui;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import ru.wtw.moreliatalkclient.R;
 
@@ -65,6 +68,7 @@ public class LoginFragment extends DialogFragment implements View.OnClickListene
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -80,6 +84,16 @@ public class LoginFragment extends DialogFragment implements View.OnClickListene
         editLogin=v.findViewById(R.id.editFlowType);
         editPassword=v.findViewById(R.id.editFlowInfo);
         editServer=v.findViewById(R.id.editFlowName);
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        editLogin.setText(sp.getString("saved_login",""));
+        if (sp.getBoolean("custom_server", false)) {
+            editServer.setText(sp.getString("servername", getString(R.string.default_server)));
+        } else {
+            editServer.setText(getString(R.string.default_server));
+            editServer.setInputType(InputType.TYPE_NULL);
+        }
+
         return v;
     }
 
@@ -104,6 +118,15 @@ public class LoginFragment extends DialogFragment implements View.OnClickListene
                     Toast.makeText(getActivity(),
                             R.string.all_fields_must_be_filled, Toast.LENGTH_LONG).show();
                 } else {
+                    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    SharedPreferences.Editor editor = sp.edit();
+                    if (sp.getBoolean("save_login", true)) {
+                        editor.putString("saved_login", editLogin.getText().toString());
+                    }
+                    if (sp.getBoolean("custom_server", true)) {
+                        editor.putString("servername", editServer.getText().toString());
+                    }
+                    editor.apply();
                     LoginDialogListener listener = (LoginDialogListener) getActivity();
                     listener.onLoginDialog(editServer.getText().toString(),
                             editLogin.getText().toString(),editPassword.getText().toString());

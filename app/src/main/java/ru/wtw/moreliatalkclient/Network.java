@@ -458,5 +458,29 @@ public class Network {
         }
     }
 
+    public void sendRequestAllMessages(int flow_id, int time) {
+        User[] user = new User[1];
+        user[0] = new User();
+        user[0].setUuid(uuid);
+        user[0].setAuth_id(auth_id);
+        Flow[] flow = new Flow[1];
+        flow[0] = new Flow();
+        flow[0].setId(flow_id);
+        Data data = new Data();
+        data.setUser(user);
+        data.setFlow(flow);
+        data.setTime(time);
+        Protocol protocol = new Protocol();
+        protocol.setType("all_messages");
+        protocol.setData(data);
+        Gson gson = new Gson();
+        String json = gson.toJson(protocol);
+        if (socket != null && socket.isOpen()) {
+            outJson( "Sending: " + json );
+            Log.i("SERVER","Request All Messages");
+            socket.send(json);
+        }
+    }
+
 
 }

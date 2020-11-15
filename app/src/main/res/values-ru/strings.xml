@@ -68,5 +68,7 @@
     <string name="new_flow_info">Информация</string>
     <string name="new_flow_create">Создать</string>
     <string name="new_flow_name_must_be_filled">Название чата обязательно</string>
+    <string name="custom_server">Свой сервер</string>
+    <string name="save_login">Сохранять логин</string>
 
 </resources>

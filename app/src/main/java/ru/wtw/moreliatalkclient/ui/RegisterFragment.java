@@ -1,10 +1,13 @@
 package ru.wtw.moreliatalkclient.ui;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,6 +89,13 @@ public class RegisterFragment extends DialogFragment implements View.OnClickList
         editServer=v.findViewById(R.id.editFlowName);
         editUsername=v.findViewById(R.id.editUsername);
         editEmail=v.findViewById(R.id.editEmail);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        if (sp.getBoolean("custom_server", false)) {
+            editServer.setText(sp.getString("servername", getString(R.string.default_server)));
+        } else {
+            editServer.setText(getString(R.string.default_server));
+            editServer.setInputType(InputType.TYPE_NULL);
+        }
         return v;
     }
 
@@ -118,6 +128,15 @@ public class RegisterFragment extends DialogFragment implements View.OnClickList
                     Toast.makeText(getActivity(),
                             R.string.all_fields_must_be_filled, Toast.LENGTH_LONG).show();
                 } else {
+                    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    SharedPreferences.Editor editor = sp.edit();
+                    if (sp.getBoolean("save_login", true)) {
+                        editor.putString("saved_login", editLogin.getText().toString());
+                    }
+                    if (sp.getBoolean("custom_server", true)) {
+                        editor.putString("servername", editServer.getText().toString());
+                    }
+                    editor.apply();
                     RegisterDialogListener listener = (RegisterDialogListener) getActivity();
                     listener.onRegisterDialog(editServer.getText().toString(),
                             editLogin.getText().toString(),editPassword.getText().toString(),
