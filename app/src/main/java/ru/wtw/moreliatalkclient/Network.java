@@ -136,6 +136,7 @@ public class Network {
                     isConnected = true;
                     if (register) {
                         sendReg();
+                        register=false;
                     } else {
                         sendAuth();
                     }
@@ -196,8 +197,32 @@ public class Network {
                             outFlowUpdate();
                         }
                     }
+                    if (protocol.getType().equals("all_messages")) {
+                        if (protocol.getErrors().getCode() == 200) {
+                            for (int i = 0; i < protocol.getData().getMessage().length; i++) {
+                                int own=MessageAdapter.TYPE_MSG_IN;
+                                if (protocol.getData().getMessage()[i].getFrom_user().toString().equals(String.valueOf(getUuid()))) {
+                                    own=MessageAdapter.TYPE_MSG_OUT;
+                                }
+                                mydb.insertMsg(Integer.toString(protocol.getData().getMessage()[i].getId()),
+                                        protocol.getData().getMessage()[i].getFrom_flow().toString(),
+                                        protocol.getData().getMessage()[i].getFrom_user().toString(),
+                                        protocol.getData().getMessage()[i].getText(),
+                                        protocol.getData().getMessage()[i].getTime(), own
+                                );
+
+/*
+                                        protocol.getData().getMessage()[i].getFrom_flow().toString(),
+                                        protocol.getData().getMessage()[i].getFrom_user().toString(),
+                                        protocol.getData().getMessage()[i].getText());
+*/
+
+                            }
+                            outMessage();
+                        }
+                    }
                     if (!showJSON) {
-                        outChat("", reply, "");
+  //                      outMessage("", reply, "");
                     }
                     Log.i("SERVER", "Message: " + message);
                 }
@@ -213,9 +238,9 @@ public class Network {
                 @Override
                 public void onClose(final int code, String reason, boolean remote) {
                     Log.i("SERVER", "Disconnected with exit code " + code + " additional info: " + reason);
-                    outChat("", activity.getResources().getString(R.string.socket_close) + code, "*");
+//                    outMessage("", activity.getResources().getString(R.string.socket_close) + code, "*");
                     if (reconnect) {
-                        outChat("", activity.getResources().getString(R.string.reconnecting), "*");
+///                        outMessage("", activity.getResources().getString(R.string.reconnecting), "*");
                         Network.this.reconnect();
                     }
                 }
@@ -223,7 +248,7 @@ public class Network {
                 @Override
                 public void onError(Exception ex) {
                     Log.e("SERVER", "Error", ex);
-                    outChat("", activity.getResources().getString(R.string.socket_error) + ex.toString(), "*");
+//                    outMessage("", activity.getResources().getString(R.string.socket_error) + ex.toString(), "*");
                 }
             };
         }
@@ -233,7 +258,17 @@ public class Network {
 
     }
 
-    public void outChat (final String user, final String text, final String time) {
+    public void outMessage() {
+        if (activity.getClass().toString().equals("class ru.wtw.moreliatalkclient.FlowActivity")) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((FlowActivity) activity).onMessage();
+                }
+            });
+        }
+
+/*
         if (activity.getClass().toString().equals("class ru.wtw.moreliatalkclient.TextChatActivity")) {
             activity.runOnUiThread(new Runnable() {
                 @Override
@@ -250,6 +285,8 @@ public class Network {
                 }
             });
         }
+*/
+/*
         if (activity.getClass().toString().equals("class ru.wtw.moreliatalkclient.MainActivity")) {
             activity.runOnUiThread(new Runnable() {
                 @Override
@@ -258,6 +295,7 @@ public class Network {
                 }
             });
         }
+*/
     }
 
     public void outJson(final String json) {
@@ -361,7 +399,7 @@ public class Network {
     public void sendMessage (String text, int flow_id) {
         if (rawJSON) {
             if (socket != null && socket.isOpen()) {
-                if (showJSON) outChat("","Sending RAW: "+text, "");
+//                if (showJSON) outMessage("","Sending RAW: "+text, "");
                 Log.i("SERVER","Send text");
                 Log.i("SERVER",text);
                 socket.send(text);

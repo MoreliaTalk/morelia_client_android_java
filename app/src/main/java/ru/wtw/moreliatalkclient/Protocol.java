@@ -237,9 +237,9 @@ class Edited_message {
 class Message {
     private int id;
     private String text;
-    private From_User from_user;
-    private String time;
-    private From_Flow from_flow;
+    private String from_user_uuid;
+    private int time;
+    private String from_flow_id;
     private File file;
     private String emoji;
     private Edited_message edited_message;
@@ -261,28 +261,28 @@ class Message {
         this.text = text;
     }
 
-    public From_User getFrom_user() {
-        return from_user;
+    public String getFrom_user() {
+        return from_user_uuid;
     }
 
-    public void setFrom_user(From_User from_user) {
-        this.from_user = from_user;
+    public void setFrom_user(String from_user) {
+        this.from_user_uuid = from_user;
     }
 
-    public String getTime() {
+    public int getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(int time) {
         this.time = time;
     }
 
-    public From_Flow getFrom_flow() {
-        return from_flow;
+    public String getFrom_flow() {
+        return from_flow_id;
     }
 
-    public void setFrom_flow(From_Flow from_flow) {
-        this.from_flow = from_flow;
+    public void setFrom_flow(String from_flow) {
+        this.from_flow_id = from_flow;
     }
 
     public File getFile() {

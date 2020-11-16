@@ -99,9 +99,8 @@ public class FlowListFragment extends Fragment {
                         intent.putExtra("username", userSession.getName());
                         intent.putExtra("password", userSession.getPassword());
                         intent.putExtra("servername", "ws://" + userSession.getServer() + ":" + "8000" + "/ws");
-                        intent.putExtra("reconnect", true);
-                        intent.putExtra("register", false);
                         intent.putExtra("flow_id", flow_id);
+                        intent.putExtra("user_login", userSession.getLogin());
                         intent.putExtra("flow_name", FlowList.getItemAtPosition(position).toString());
                         startActivity(intent);
                     } else {

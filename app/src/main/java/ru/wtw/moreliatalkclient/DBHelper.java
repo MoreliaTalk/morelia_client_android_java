@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -34,6 +35,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_MESSAGE_ID = "id";
     public static final String COLUMN_MESSAGE_SERVER_ID = "uuid";
     public static final String COLUMN_MESSAGE_TIME = "time";
+    public static final String COLUMN_MESSAGE_OWN = "own";
     public static final String COLUMN_MESSAGE_TEXT = "text";
     public static final String COLUMN_MESSAGE_FLOW_ID = "flow_id";
     public static final String COLUMN_MESSAGE_USER_ID = "user_id";
@@ -42,7 +44,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private HashMap hp;
 
     public DBHelper(Context context) {
-        super(context, DATABASE_MORELIA , null, 6);
+        super(context, DATABASE_MORELIA , null, 8);
     }
 
     @Override
@@ -70,7 +72,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 "create table " + TABLE_MESSAGES_NAME + "(" +
                         COLUMN_MESSAGE_ID + " integer primary key, " +
                         COLUMN_MESSAGE_SERVER_ID + " text, " +
-                        COLUMN_MESSAGE_TIME + " datetime, " +
+                        COLUMN_MESSAGE_TIME + " integer, " +
+                        COLUMN_MESSAGE_OWN + " integer, " +
                         COLUMN_MESSAGE_TEXT + " text, " +
                         COLUMN_MESSAGE_FLOW_ID + " text, " +
                         COLUMN_MESSAGE_USER_ID + " text )"
@@ -121,6 +124,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + TABLE_JSON_NAME, null);
+
         res.moveToFirst();
 
         while (res.isAfterLast() == false) {
@@ -148,13 +152,15 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean insertMsg(String id, String flow_id, String user_id, String text) {
+    public boolean insertMsg(String id, String flow_id, String user_id, String text, int time, int own) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_MESSAGE_SERVER_ID, id);
         contentValues.put(COLUMN_MESSAGE_FLOW_ID, flow_id);
         contentValues.put(COLUMN_MESSAGE_USER_ID, user_id);
         contentValues.put(COLUMN_MESSAGE_TEXT, text);
+        contentValues.put(COLUMN_MESSAGE_TIME, time);
+        contentValues.put(COLUMN_MESSAGE_OWN, own);
 
         int u = db.update(TABLE_MESSAGES_NAME, contentValues, COLUMN_MESSAGE_SERVER_ID+"=?", new String[]{id});
         if (u == 0) {
@@ -184,6 +190,31 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return array_list;
     }
+
+    public ArrayList<MessageAdapter.Message> getAllMessages( String flow_id ) {
+        ArrayList<MessageAdapter.Message> array_list = new ArrayList<>();
+
+        //hp = new HashMap();
+
+        Log.i("SERVER",flow_id);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.query(TABLE_MESSAGES_NAME, null,
+                COLUMN_MESSAGE_FLOW_ID + " = ?", new String[]{flow_id},
+                null, null, null);
+        res.moveToFirst();
+
+        while (res.isAfterLast() == false) {
+            array_list.add(new MessageAdapter.Message( res.getString(res.getColumnIndex(COLUMN_MESSAGE_TEXT)),
+                    res.getString(res.getColumnIndex(COLUMN_MESSAGE_USER_ID)),
+                    res.getLong(res.getColumnIndex(COLUMN_MESSAGE_TIME)),
+                    res.getInt(res.getColumnIndex(COLUMN_MESSAGE_OWN))));
+            res.moveToNext();
+        }
+
+        return array_list;
+    }
+
 
     public boolean clearFlows() {
         SQLiteDatabase db = this.getWritableDatabase();

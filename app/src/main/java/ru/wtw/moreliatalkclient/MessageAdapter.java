@@ -10,17 +10,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter {
     private List<Message> messageList;
     private RecyclerView recyclerView;
 
-    public static final int TYPE_SERVICE = 0;
-    public static final int TYPE_ERROR = 1;
-    public static final int TYPE_MSG_OUT = 2;
-    public static final int TYPE_MSG_IN = 3;
+    public static final int TYPE_MSG_IN = 0;
+    public static final int TYPE_MSG_OUT = 1;
+    public static final int TYPE_SERVICE = 2;
+    public static final int TYPE_ERROR = 3;
 
     private static final int MAX_MESSAGES = 1000;
 
@@ -36,11 +38,11 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
     public static class Message {
         String text;
-        String time;
+        long time;
         String user;
         int type;
 
-        public Message(String text, String user, String time, int type) {
+        public Message(String text, String user, long time, int type) {
             this.text = text;
             this.user = user;
             this.time = time;
@@ -62,8 +64,10 @@ public class MessageAdapter extends RecyclerView.Adapter {
         }
 
         void bind(Message message) {
+            SimpleDateFormat sf = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+            Date date = new Date(message.time*1000);
             messageText.setText(message.text);
-            messageTime.setText(message.time);
+            messageTime.setText(sf.format(date));
             userName.setText(message.user);
         }
     }
@@ -106,6 +110,15 @@ public class MessageAdapter extends RecyclerView.Adapter {
     public MessageAdapter() {
         this.messageList = new ArrayList<>();
     }
+    public MessageAdapter(List<Message> messageList) {
+        this.messageList = messageList;
+    }
+
+    public void ReplaceArray(List<Message> messageList) {
+        this.messageList.clear();
+        this.messageList.addAll(messageList);
+    }
+
 
     public void appendTo(RecyclerView recyclerView, Context parent) {
         this.recyclerView = recyclerView;
@@ -133,9 +146,9 @@ public class MessageAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int view_type) {
         View view;
         if (view_type == TYPE_MSG_IN) {
-            view = LayoutInflater.from(viewGroup.getContext()).inflate(msgOutLayout, viewGroup, false);
-        } else if (view_type == TYPE_MSG_OUT) {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(msgInLayout, viewGroup, false);
+        } else if (view_type == TYPE_MSG_OUT) {
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(msgOutLayout, viewGroup, false);
         } else if (view_type == TYPE_ERROR) {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(errorLayout, viewGroup, false);
         } else {

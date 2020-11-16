@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,34 +16,52 @@ public class FlowActivity extends AppCompatActivity {
 
     private MessageAdapter adapter;
     private Network network;
+    private DBHelper mydb;
+    private RecyclerView flowWindow;
+
 
     private int themeIndex;
 
     private int flow_id;
+    private String user_login;
 
     private static final int VERTICAL_ITEM_SPACE = 48;
+
+
+    private final int interval = 5000;
+    private Handler handler = new Handler();
+    private Runnable runnable = new Runnable(){
+        public void run() {
+            if (network.isConnected()) {
+                network.sendRequestAllMessages(flow_id,0);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flow);
 
+        mydb = new DBHelper(this);
+
         ActionBar actionBar =getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        RecyclerView flowWindow = findViewById(R.id.flowWindow);
+        flowWindow = findViewById(R.id.flowWindow);
         flowWindow.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_ITEM_SPACE));
 
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             themeIndex = extras.getInt("theme", 0);
+            flow_id=extras.getInt("flow_id");
         } else{
             themeIndex = 0;
         }
 
-        adapter = new MessageAdapter();
+        adapter = new MessageAdapter(mydb.getAllMessages(String.valueOf(flow_id)));
 
         adapter
                 .setMsgInLayout(R.layout.themes_classic_message_in)
@@ -80,22 +99,25 @@ public class FlowActivity extends AppCompatActivity {
         network = new Network(FlowActivity.this);
         if (extras != null) {
             Log.i("SERVER","Extra");
-            flow_id=extras.getInt("flow_id");
+            user_login =extras.getString("user_login");
             setTitle(extras.getString("flow_name"));
-            network.setUsername(extras.getString("username"));
             network.setLogin(extras.getString("login"));
-            network.setEmail(extras.getString("email"));
             network.setPassword(extras.getString("password"));
             network.setServername(extras.getString("servername"));
-            network.setReconnect(extras.getBoolean("reconnect"));
-            network.setShowJSON(extras.getBoolean("outjson"));
-            network.setUseNewAPI(extras.getBoolean("newapi"));
-            network.setRawJSON(extras.getBoolean("rawjson"));
-            network.setRegister(extras.getBoolean("register"));
+            network.setReconnect(true);
+            network.setRegister(false);
             network.connect();
         }
+
+        handler.postDelayed(runnable, interval);
+        flowWindow.scrollToPosition(adapter.getItemCount()-1);
+
     }
 
+    private void LoadMessages(String flow_id) {
+
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -113,24 +135,31 @@ public class FlowActivity extends AppCompatActivity {
         super.onStart();
         ImageButton sendButton = findViewById(R.id.sendButton);
 
+
+
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (network.isConnected()) {
+
                     EditText editSend = findViewById(R.id.editSend);
                     String text=editSend.getText().toString().trim();
                     if (!text.isEmpty()) {
                         network.sendMessage(text, flow_id);
-                    }
-                    if (network.isNotRawJSON()) {
                         editSend.setText("");
                     }
+                    network.sendRequestAllMessages(flow_id,0);
                 }
             }
         });
     }
 
-    public void onMessage(String user, String text, String time) {
+    public void onMessage() {
+        adapter.ReplaceArray(mydb.getAllMessages(String.valueOf(flow_id)));
+        adapter.notifyDataSetChanged();
+        flowWindow.scrollToPosition(adapter.getItemCount()-1);
+
+/*
         int type = MessageAdapter.TYPE_SERVICE;
         if (!user.equals("")) {
             if (network.getLogin().equals(user)) {
@@ -144,8 +173,9 @@ public class FlowActivity extends AppCompatActivity {
             }
         }
         adapter.addMessage(
-                new MessageAdapter.Message( text, user, time, type)
+                new MessageAdapter.Message( text, user, 0, type)
         );
+*/
     }
 
 }
