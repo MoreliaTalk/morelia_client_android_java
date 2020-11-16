@@ -64,7 +64,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
         }
 
         void bind(Message message) {
-            SimpleDateFormat sf = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+            SimpleDateFormat sf = new SimpleDateFormat("dd.MM.yy HH:mm:ss");
             Date date = new Date(message.time*1000);
             messageText.setText(message.text);
             messageTime.setText(sf.format(date));

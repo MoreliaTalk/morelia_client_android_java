@@ -20,7 +20,7 @@
     <string name="switch_json_output">Show JSON instead of chat</string>
     <string name="reconnecting">Reconnecting to server</string>
     <string name="switch_new_api">Use new develop API</string>
-    <string name="switch_raw_json">Send inputed as RAW JSON</string>
+    <string name="switch_raw_json">Send entered as RAW JSON</string>
     <string name="switch_new_design">Show chat in new design</string>
     <string name="register">Register</string>
     <string name="email">E-mail</string>
@@ -62,7 +62,7 @@
     <string name="safe_scroll_off">Scroll from any position</string>
 
     <!-- Design Preferences -->
-    <string name="themes_messages">Themes of messages ballons</string>
+    <string name="themes_messages">Themes of messages balloons</string>
     <string name="auth_status_ok">Auth success</string>
     <string name="menu_register">Register new account</string>
     <string name="menu_newflow">Create new flow</string>

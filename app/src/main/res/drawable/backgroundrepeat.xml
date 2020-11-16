@@ -1,5 +1,5 @@
 <bitmap
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:src="@drawable/snakeskin_green"
+    android:src="@drawable/snake_tiles"
     android:tileMode="repeat"
     android:dither="true" />

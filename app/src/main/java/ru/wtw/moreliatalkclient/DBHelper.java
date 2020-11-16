@@ -201,7 +201,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.query(TABLE_MESSAGES_NAME, null,
                 COLUMN_MESSAGE_FLOW_ID + " = ?", new String[]{flow_id},
-                null, null, null);
+                null, null, COLUMN_MESSAGE_TIME);
         res.moveToFirst();
 
         while (res.isAfterLast() == false) {

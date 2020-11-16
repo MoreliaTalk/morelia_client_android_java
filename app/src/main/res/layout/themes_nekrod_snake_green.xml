@@ -9,7 +9,7 @@
         android:id="@+id/messageText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/baloon_nekrod_green"
+        android:background="@drawable/balloon_nekrod_green"
         android:text=""
         android:textColor="@android:color/black"
         android:textSize="18sp"

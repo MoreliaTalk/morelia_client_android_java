@@ -27,7 +27,7 @@ public class Network {
     private URI socketURI;
     private WebSocketClient socket;
 
-    private DBHelper mydb;
+    private DBHelper appDB;
 
     // Uncomment and specify in new WebSocketClient(socketURI, perMessageDeflateDraft)  to enable compression
     // private static final Draft perMessageDeflateDraft = new Draft_6455(new PerMessageDeflateExtension());
@@ -52,7 +52,7 @@ public class Network {
     private boolean isConnected;
 
     public Network(Activity activity){
-        mydb = new DBHelper(activity);
+        appDB = new DBHelper(activity);
         this.activity=activity;
         isConnected=false;
     }
@@ -180,7 +180,7 @@ public class Network {
                     if (protocol.getType().equals("add_flow")) {
                         if (protocol.getErrors().getCode() == 200) {
                             for (int i = 0; i < protocol.getData().getFlow().length; i++) {
-                                mydb.insertFlow(Integer.toString(protocol.getData().getFlow()[i].getId()),
+                                appDB.insertFlow(Integer.toString(protocol.getData().getFlow()[i].getId()),
                                         protocol.getData().getFlow()[i].getTitle(),
                                         protocol.getData().getFlow()[i].getType());
                             }
@@ -190,7 +190,7 @@ public class Network {
                     if (protocol.getType().equals("all_flow")) {
                         if (protocol.getErrors().getCode() == 200) {
                             for (int i = 0; i < protocol.getData().getFlow().length; i++) {
-                                mydb.insertFlow(Integer.toString(protocol.getData().getFlow()[i].getId()),
+                                appDB.insertFlow(Integer.toString(protocol.getData().getFlow()[i].getId()),
                                         protocol.getData().getFlow()[i].getTitle(),
                                         protocol.getData().getFlow()[i].getType());
                             }
@@ -204,7 +204,7 @@ public class Network {
                                 if (protocol.getData().getMessage()[i].getFrom_user().toString().equals(String.valueOf(getUuid()))) {
                                     own=MessageAdapter.TYPE_MSG_OUT;
                                 }
-                                mydb.insertMsg(Integer.toString(protocol.getData().getMessage()[i].getId()),
+                                appDB.insertMsg(Integer.toString(protocol.getData().getMessage()[i].getId()),
                                         protocol.getData().getMessage()[i].getFrom_flow().toString(),
                                         protocol.getData().getMessage()[i].getFrom_user().toString(),
                                         protocol.getData().getMessage()[i].getText(),
@@ -299,7 +299,7 @@ public class Network {
     }
 
     public void outJson(final String json) {
-        mydb.insertJSON(json);
+        appDB.insertJSON(json);
         if (activity.getClass().toString().equals("class ru.wtw.moreliatalkclient.MainActivity")) {
             activity.runOnUiThread(new Runnable() {
                 @Override

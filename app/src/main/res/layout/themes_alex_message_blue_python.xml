@@ -9,7 +9,7 @@
         android:id="@+id/messageText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/baloon_python_blue"
+        android:background="@drawable/balloon_python_blue"
         android:text="Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения Текст сообщения "
         android:textColor="@android:color/white"
         android:textSize="18sp"
@@ -24,6 +24,7 @@
         android:layout_marginLeft="24dp"
         android:layout_marginTop="4dp"
         android:text="Имя пользователя"
+        android:textColor="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,6 +36,7 @@
         android:layout_marginEnd="72dp"
         android:layout_marginRight="72dp"
         android:text="10:22:00"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

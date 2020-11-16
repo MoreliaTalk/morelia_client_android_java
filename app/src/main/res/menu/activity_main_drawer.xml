@@ -17,7 +17,7 @@
             android:icon="@drawable/ic_morelia_chats"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_newflow"
+            android:id="@+id/nav_newFlow"
             android:icon="@drawable/ic_morelia_addflow"
             android:title="@string/menu_newflow"
             android:visible="false"/>

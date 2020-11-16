@@ -8,8 +8,8 @@ android {
         applicationId "ru.wtw.moreliatalkclient"
         minSdkVersion 14
         targetSdkVersion 30
-        versionCode 14
-        versionName "0.1.4.3"
+        versionCode 15
+        versionName "0.1.4.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
     android:background="@drawable/side_nav_bar"
@@ -34,7 +35,8 @@
             android:id="@+id/connectStatus"
             android:layout_width="100px"
             android:layout_height="100px"
-            app:srcCompat="@drawable/ic_status_gray" />
+            app:srcCompat="@drawable/ic_status_gray"
+            tools:ignore="ContentDescription" />
 
     </LinearLayout>
 

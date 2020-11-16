@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
 
     private Network network;
 
-    private DBHelper mydb;
+    private DBHelper appDB;
 
     public UserSession userSession;
 
@@ -51,21 +51,12 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mydb = new DBHelper(this);
+        appDB = new DBHelper(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Log.i("SERVER", "setup onCreate()");
-/*
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Chat creation not implemented", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-*/
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
 
@@ -73,8 +64,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         userName = navigationView.getHeaderView(0).findViewById(R.id.userName);
         userStatus = navigationView.getHeaderView(0).findViewById(R.id.userStatus);
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_flowlist, R.id.nav_jsonlogs, R.id.nav_settings)
                 .setOpenableLayout(drawer)
@@ -123,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
                             DialogFragment dlgRegister = new RegisterFragment();
                             dlgRegister.show(getSupportFragmentManager(), dlgRegister.getClass().getName());
                         }
-                        if (id == R.id.nav_newflow) {
+                        if (id == R.id.nav_newFlow) {
                             DialogFragment dlgNewFlow = new NewFlowFragment();
                             dlgNewFlow.show(getSupportFragmentManager(), dlgNewFlow.getClass().getName());
                         }
@@ -223,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         userName.setText(userSession.getName());
         userStatus.setText(userSession.getLogin()+"@"+userSession.getServer());
         navigationView.getMenu().findItem(R.id.nav_register).setVisible(false);
-        navigationView.getMenu().findItem(R.id.nav_newflow).setVisible(true);
+        navigationView.getMenu().findItem(R.id.nav_newFlow).setVisible(true);
         navigationView.getMenu().findItem(R.id.nav_login).setTitle(getResources().getString(R.string.menu_logout));
         navigationView.getMenu().findItem(R.id.nav_login).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_morelia_logout));
     }
@@ -234,10 +223,10 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         userName.setText("");
         userStatus.setText("");
         navigationView.getMenu().findItem(R.id.nav_register).setVisible(true);
-        navigationView.getMenu().findItem(R.id.nav_newflow).setVisible(false);
+        navigationView.getMenu().findItem(R.id.nav_newFlow).setVisible(false);
         navigationView.getMenu().findItem(R.id.nav_login).setTitle(getResources().getString(R.string.menu_login));
         navigationView.getMenu().findItem(R.id.nav_login).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_morelia_login));
-        mydb.clearFlows();
+        appDB.clearFlows();
         network = null;
         onFlowsUpdate();
     }

@@ -29,11 +29,11 @@ import ru.wtw.moreliatalkclient.R;
 
 public class JsonLogsFragment extends Fragment {
 
-    public static final String RADIO_JSON_CHANGED = "com.yourapp.app.RADIODATASETCHANGED";
+    public static final String RADIO_JSON_CHANGED = "morelia.wtw.ru.RADIODATASETCHANGED";
 
     private JsonLogsViewModel jsonLogsViewModel;
     private ListView JsonList;
-    private DBHelper mydb;
+    private DBHelper appDB;
     private ArrayAdapter arrayAdapter;
     private ArrayList array_list;
 
@@ -44,9 +44,8 @@ public class JsonLogsFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(RADIO_JSON_CHANGED)) {
                 array_list.clear();
-                array_list.addAll(mydb.getAllJson());
+                array_list.addAll(appDB.getAllJson());
                 arrayAdapter.notifyDataSetChanged();
-                //Notify dataset changed here
             }
         }
     }
@@ -67,9 +66,9 @@ public class JsonLogsFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mydb.clearJSON();
+                appDB.clearJSON();
                 array_list.clear();
-                array_list.addAll(mydb.getAllJson());
+                array_list.addAll(appDB.getAllJson());
                 arrayAdapter.notifyDataSetChanged();
                 Toast.makeText(getContext(), "Logs cleared", Toast.LENGTH_SHORT).show();
             }
@@ -78,13 +77,13 @@ public class JsonLogsFragment extends Fragment {
 
 
         //        final TextView textView = root.findViewById(R.id.text_jsonlogs);
-        mydb = new DBHelper(getContext());
-        array_list = mydb.getAllJson();
+        appDB = new DBHelper(getContext());
+        array_list = appDB.getAllJson();
         arrayAdapter = new ArrayAdapter(getContext(),
                 android.R.layout.simple_list_item_1,
                 array_list);
 
-        JsonList = (ListView) root.findViewById(R.id.listViewJsons);
+        JsonList = (ListView) root.findViewById(R.id.listViewJSONs);
         JsonList.setAdapter(arrayAdapter);
         JsonList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override

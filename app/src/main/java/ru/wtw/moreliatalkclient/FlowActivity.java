@@ -2,8 +2,10 @@ package ru.wtw.moreliatalkclient;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -16,11 +18,11 @@ public class FlowActivity extends AppCompatActivity {
 
     private MessageAdapter adapter;
     private Network network;
-    private DBHelper mydb;
+    private DBHelper appDB;
     private RecyclerView flowWindow;
 
 
-    private int themeIndex;
+    private String themeIndex;
 
     private int flow_id;
     private String user_login;
@@ -43,7 +45,7 @@ public class FlowActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flow);
 
-        mydb = new DBHelper(this);
+        appDB = new DBHelper(this);
 
         ActionBar actionBar =getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
@@ -52,16 +54,15 @@ public class FlowActivity extends AppCompatActivity {
         flowWindow = findViewById(R.id.flowWindow);
         flowWindow.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_ITEM_SPACE));
 
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        themeIndex = sp.getString("themes","Classic");
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            themeIndex = extras.getInt("theme", 0);
             flow_id=extras.getInt("flow_id");
-        } else{
-            themeIndex = 0;
         }
 
-        adapter = new MessageAdapter(mydb.getAllMessages(String.valueOf(flow_id)));
+        adapter = new MessageAdapter(appDB.getAllMessages(String.valueOf(flow_id)));
 
         adapter
                 .setMsgInLayout(R.layout.themes_classic_message_in)
@@ -71,18 +72,18 @@ public class FlowActivity extends AppCompatActivity {
 
 
         switch (themeIndex) {
-            case 1:
+            case "Alex-Python":
                 adapter
                         .setMsgInLayout(R.layout.themes_alex_message_blue_python)
                         .setMsgOutLayout(R.layout.themes_alex_message_yellow_python);
                 break;
-            case 2:
+            case "Alex-Glass":
                 adapter
                         .setMsgInLayout(R.layout.themes_alex_glass_snake_blue)
                         .setMsgOutLayout(R.layout.themes_alex_glass_snake_blue)
                         .setServiceLayout(R.layout.themes_alex_glass_snake_blue);
                 break;
-            case 3:
+            case "Nekrod-Snakes":
                 adapter
                         .setMsgInLayout(R.layout.themes_nekrod_snake_yellow)
                         .setMsgOutLayout(R.layout.themes_nekrod_snake_green);
@@ -155,7 +156,7 @@ public class FlowActivity extends AppCompatActivity {
     }
 
     public void onMessage() {
-        adapter.ReplaceArray(mydb.getAllMessages(String.valueOf(flow_id)));
+        adapter.ReplaceArray(appDB.getAllMessages(String.valueOf(flow_id)));
         adapter.notifyDataSetChanged();
         flowWindow.scrollToPosition(adapter.getItemCount()-1);
 

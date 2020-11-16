@@ -1,13 +1,9 @@
 package ru.wtw.moreliatalkclient.ui.flowlist;
 
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,24 +21,21 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import ru.wtw.moreliatalkclient.DBHelper;
 import ru.wtw.moreliatalkclient.FlowActivity;
-import ru.wtw.moreliatalkclient.LoginActivity;
 import ru.wtw.moreliatalkclient.MainActivity;
 import ru.wtw.moreliatalkclient.R;
 import ru.wtw.moreliatalkclient.UserSession;
-import ru.wtw.moreliatalkclient.ui.jsonlogs.JsonLogsFragment;
 
 public class FlowListFragment extends Fragment {
 
-    public static final String RADIO_FLOW_CHANGED = "com.yourapp.app.RADIODATASETCHANGED";
+    public static final String RADIO_FLOW_CHANGED = "morelia.wtw.ru.RADIODATASETCHANGED";
 
     private FlowListViewModel flowListViewModel;
 
     private ListView FlowList;
-    private DBHelper mydb;
+    private DBHelper appDB;
     private ArrayAdapter arrayAdapter;
     private ArrayList array_list;
 
@@ -53,9 +46,8 @@ public class FlowListFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(RADIO_FLOW_CHANGED)) {
                 array_list.clear();
-                array_list.addAll(mydb.getAllFlow());
+                array_list.addAll(appDB.getAllFlow());
                 arrayAdapter.notifyDataSetChanged();
-                //Notify dataset changed here
             }
         }
     }
@@ -72,9 +64,9 @@ public class FlowListFragment extends Fragment {
                 ViewModelProvider(this).get(FlowListViewModel.class);
         View root = inflater.inflate(R.layout.fragment_flowlist, container, false);
 
-        mydb = new DBHelper(getContext());
+        appDB = new DBHelper(getContext());
 
-        array_list = mydb.getAllFlow();
+        array_list = appDB.getAllFlow();
         arrayAdapter = new ArrayAdapter(getContext(),
                 android.R.layout.simple_list_item_1,
                 array_list);

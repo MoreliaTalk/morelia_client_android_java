@@ -10,7 +10,6 @@
         android:id="@+id/tableLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:shrinkColumns="*"
         android:stretchColumns="*">
 
         <TableRow
@@ -21,6 +20,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
                 android:text="@string/servername" />
 
             <EditText
@@ -29,7 +29,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textUri"
-                android:text="@string/default_server" />
+                android:text="@string/default_server"
+                android:importantForAutofill="no" />
 
         </TableRow>
 
@@ -41,6 +42,7 @@
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
                 android:text="@string/loginname" />
 
             <EditText
@@ -61,6 +63,7 @@
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
                 android:text="@string/password" />
 
             <EditText

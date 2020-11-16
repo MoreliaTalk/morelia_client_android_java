@@ -10,7 +10,6 @@
         android:id="@+id/tableLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:shrinkColumns="*"
         android:stretchColumns="*">
 
         <TableRow
@@ -19,6 +18,7 @@
 
             <TextView
                 android:id="@+id/textView2"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/servername" />
@@ -28,6 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:importantForAutofill="no"
                 android:inputType="textUri"
                 android:text="@string/default_server" />
 
@@ -39,6 +40,7 @@
 
             <TextView
                 android:id="@+id/textView7"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/loginname" />
@@ -59,6 +61,7 @@
 
             <TextView
                 android:id="@+id/textView5"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/password" />
@@ -79,6 +82,7 @@
 
             <TextView
                 android:id="@+id/textView4"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/username" />
@@ -99,6 +103,7 @@
 
             <TextView
                 android:id="@+id/textView6"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/email" />

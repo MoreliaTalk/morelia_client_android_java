@@ -14,7 +14,7 @@
 
         <EditTextPreference
             app:dependency="custom_server"
-            app:key="serverport"
+            app:key="serverPort"
             app:title="@string/server_port"
             app:defaultValue="8000"
             app:useSimpleSummaryProvider="true" />
@@ -24,7 +24,7 @@
             app:defaultValue="custom_server"
             app:entries="@array/wss_entries"
             app:entryValues="@array/wss_values"
-            app:key="serversecure"
+            app:key="serverSecure"
             app:title="@string/server_secure"
             app:useSimpleSummaryProvider="true" />
 
@@ -45,7 +45,7 @@
 
         <ListPreference
             app:defaultValue="ws"
-            app:enabled="false"
+            app:enabled="true"
             app:entries="@array/theme_name"
             app:entryValues="@array/theme_name"
             app:key="themes"
