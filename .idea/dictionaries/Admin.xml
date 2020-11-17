@@ -1,16 +1,38 @@
 <component name="ProjectDictionaryState">
   <dictionary name="Admin">
     <words>
+      <w>addflow</w>
+      <w>authed</w>
+      <w>backgroundrepeat</w>
+      <w>cleanmessage</w>
+      <w>emoji</w>
+      <w>flowlist</w>
+      <w>gson</w>
       <w>handshakedata</w>
       <w>javatime</w>
+      <w>jsonapi</w>
+      <w>jsonlogs</w>
+      <w>kanban</w>
+      <w>lia.wtw</w>
+      <w>loginname</w>
       <w>morelia</w>
       <w>moreliatalkclient</w>
+      <w>nekrod</w>
       <w>newapi</w>
+      <w>newdesign</w>
+      <w>newflow</w>
       <w>newreg</w>
       <w>noninfringement</w>
+      <w>outcoming</w>
       <w>outjson</w>
+      <w>permessage</w>
+      <w>radiodatasetchanged</w>
+      <w>rawjson</w>
       <w>servername</w>
       <w>testuser</w>
+      <w>trello</w>
+      <w>unsecure</w>
+      <w>websocket</w>
     </words>
   </dictionary>
 </component>

@@ -1,0 +1,36 @@
+<resources>
+    <!-- WSS Preference -->
+    <string-array name="wss_entries">
+        <item>Только безопасные сокеты</item>
+        <item>Сначала безопасные сокеты</item>
+        <item>Сначала небезопасные сокеты</item>
+        <item>Только небезопасные сокеты</item>
+    </string-array>
+
+    <string-array name="wss_values">
+        <item>wss</item>
+        <item>wss_ws</item>
+        <item>ws_wss</item>
+        <item>ws</item>
+    </string-array>
+
+    <!-- Themes Preference -->
+    <string-array name="theme_name">
+        <item>Classic</item>
+        <item>Alex-Python</item>
+        <item>Alex-Glass</item>
+        <item>Nekrod-Snakes</item>
+    </string-array>
+
+    <!-- Flow type Preference -->
+    <string-array name="flow_type_names">
+        <item>Группа</item>
+        <item>Канал</item>
+    </string-array>
+
+    <string-array name="flow_type_values">
+        <item>group</item>
+        <item>channel</item>
+    </string-array>
+
+</resources>

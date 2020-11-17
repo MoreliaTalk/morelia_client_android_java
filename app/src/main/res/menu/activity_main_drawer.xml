@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/ic_morelia_login"
+            android:title="@string/menu_login" />
+        <item
+            android:id="@+id/nav_register"
+            android:icon="@drawable/ic_morelia_register"
+            android:title="@string/menu_register" />
+        <item
+            android:id="@+id/nav_flowlist"
+            android:icon="@drawable/ic_morelia_chats"
+            android:title="@string/menu_home" />
+        <item
+            android:id="@+id/nav_newFlow"
+            android:icon="@drawable/ic_morelia_addflow"
+            android:title="@string/menu_newflow"
+            android:visible="false"/>
+        <item
+            android:id="@+id/nav_jsonlogs"
+            android:icon="@android:drawable/stat_notify_error"
+            android:title="@string/menu_jsonlogs" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@android:drawable/stat_notify_sdcard_prepare"
+            android:title="@string/menu_settings" />
+    </group>
+</menu>

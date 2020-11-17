@@ -1,0 +1,75 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/server_header">
+
+        <SwitchPreferenceCompat
+            app:key="custom_server"
+            app:title="@string/custom_server" />
+
+        <EditTextPreference
+            app:dependency="custom_server"
+            app:key="servername"
+            app:title="@string/server_address"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:dependency="custom_server"
+            app:key="serverPort"
+            app:title="@string/server_port"
+            app:defaultValue="8000"
+            app:useSimpleSummaryProvider="true" />
+
+<!--
+        <ListPreference
+            app:defaultValue="custom_server"
+            app:entries="@array/wss_entries"
+            app:entryValues="@array/wss_values"
+            app:key="serverSecure"
+            app:title="@string/server_secure"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            app:key="reconnect"
+            app:title="@string/server_reconnect" />
+-->
+
+        <SwitchPreferenceCompat
+            app:key="save_login"
+            app:defaultValue="true"
+            app:title="@string/save_login" />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/design_header">
+
+        <ListPreference
+            app:defaultValue="ws"
+            app:enabled="true"
+            app:entries="@array/theme_name"
+            app:entryValues="@array/theme_name"
+            app:key="themes"
+            app:title="@string/themes_messages"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/logs_header">
+
+        <SwitchPreferenceCompat
+            app:key="logs_scroll"
+            app:enabled="false"
+            app:title="@string/logs_scroll" />
+
+        <SwitchPreferenceCompat
+            app:dependency="logs_scroll"
+            app:enabled="false"
+            app:key="logs_scroll_safe"
+            app:summaryOff="@string/safe_scroll_off"
+            app:summaryOn="@string/safe_scroll_on"
+            app:title="@string/safe_scrolling" />
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

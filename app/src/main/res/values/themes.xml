@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="themes_name">
+        <item>Classic</item>
+        <item>Alex-Python</item>
+        <item>Alex-Glass</item>
+        <item>Nekrod-Snakes</item>
+    </string-array>
+</resources>
