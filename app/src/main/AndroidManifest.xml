@@ -22,7 +22,6 @@
         </activity>
         <activity android:name=".LoginActivity">
         </activity>
-        <activity android:name=".TextChatActivity" />
         <activity android:name=".FlowActivity" />
     </application>
 

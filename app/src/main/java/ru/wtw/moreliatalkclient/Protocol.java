@@ -1,7 +1,7 @@
 package ru.wtw.moreliatalkclient;
 
 class User {
-    private Long uuid;
+    private String uuid;
     private String login;
     private String password;
     private String username;
@@ -11,11 +11,11 @@ class User {
     private String avatar;
     private String bio;
 
-    public long getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(long uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 
@@ -106,18 +106,18 @@ class From_User {
 }
 
 class Flow {
-    private int id;
+    private String uuid;
     private String time;
     private String type;
     private String title;
     private String info;
 
-    public int getId() {
-        return id;
+    public String getUuid() {
+        return uuid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getTime() {

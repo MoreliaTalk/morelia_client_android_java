@@ -79,7 +79,7 @@ public class FlowListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 String[] words = FlowList.getItemAtPosition(position).toString().split(" ");
-                int flow_id = Integer.valueOf(words[1]);
+                String flow_id = words[1];
 
                 UserSession userSession=((MainActivity) getActivity()).userSession;
 

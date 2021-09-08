@@ -135,14 +135,14 @@ public class DBHelper extends SQLiteOpenHelper {
         return array_list;
     }
 
-    public boolean insertFlow(String id, String title, String type) {
+    public boolean insertFlow(String uuid, String title, String type) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_FLOW_SERVER_ID, id);
+        contentValues.put(COLUMN_FLOW_SERVER_ID, uuid);
         contentValues.put(COLUMN_FLOW_TITLE, title);
         contentValues.put(COLUMN_FLOW_TYPE, type);
 
-        int u = db.update(TABLE_FLOWS_NAME, contentValues, COLUMN_FLOW_SERVER_ID+"=?", new String[]{id});
+        int u = db.update(TABLE_FLOWS_NAME, contentValues, COLUMN_FLOW_SERVER_ID+"=?", new String[]{uuid});
         if (u == 0) {
             db.insertWithOnConflict(TABLE_FLOWS_NAME, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
         }

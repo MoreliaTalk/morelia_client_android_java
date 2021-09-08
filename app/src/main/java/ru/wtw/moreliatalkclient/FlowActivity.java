@@ -24,7 +24,7 @@ public class FlowActivity extends AppCompatActivity {
 
     private String themeIndex;
 
-    private int flow_id;
+    private String flow_id;
     private String user_login;
 
     private static final int VERTICAL_ITEM_SPACE = 48;
@@ -59,7 +59,7 @@ public class FlowActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            flow_id=extras.getInt("flow_id");
+            flow_id=extras.getString("flow_id");
         }
 
         adapter = new MessageAdapter(appDB.getAllMessages(String.valueOf(flow_id)));
