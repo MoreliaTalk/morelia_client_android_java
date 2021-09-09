@@ -1,7 +1,7 @@
 package ru.wtw.moreliatalkclient;
 
 class User {
-    private Long uuid;
+    private String uuid;
     private String login;
     private String password;
     private String username;
@@ -11,11 +11,11 @@ class User {
     private String avatar;
     private String bio;
 
-    public long getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(long uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 
@@ -106,18 +106,18 @@ class From_User {
 }
 
 class Flow {
-    private int id;
+    private String uuid;
     private String time;
     private String type;
     private String title;
     private String info;
 
-    public int getId() {
-        return id;
+    public String getUuid() {
+        return uuid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getTime() {
@@ -235,22 +235,22 @@ class Edited_message {
 }
 
 class Message {
-    private int id;
+    private String uuid;
     private String text;
-    private String from_user_uuid;
+    private String from_user;
     private int time;
-    private String from_flow_id;
+    private String from_flow;
     private File file;
     private String emoji;
     private Edited_message edited_message;
     private String reply_to;
 
-    public int getId() {
-        return id;
+    public String getId() {
+        return uuid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getText() {
@@ -262,11 +262,11 @@ class Message {
     }
 
     public String getFrom_user() {
-        return from_user_uuid;
+        return from_user;
     }
 
     public void setFrom_user(String from_user) {
-        this.from_user_uuid = from_user;
+        this.from_user = from_user;
     }
 
     public int getTime() {
@@ -278,11 +278,11 @@ class Message {
     }
 
     public String getFrom_flow() {
-        return from_flow_id;
+        return from_flow;
     }
 
     public void setFrom_flow(String from_flow) {
-        this.from_flow_id = from_flow;
+        this.from_flow = from_flow;
     }
 
     public File getFile() {

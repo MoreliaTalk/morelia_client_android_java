@@ -40,7 +40,7 @@ public class Network {
     private String servername;
     private String email;
 
-    private long uuid;
+    private String uuid;
     private String auth_id;
 
     private boolean reconnect;
@@ -99,7 +99,7 @@ public class Network {
         return isConnected;
     }
 
-    public long getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
@@ -180,7 +180,7 @@ public class Network {
                     if (protocol.getType().equals("add_flow")) {
                         if (protocol.getErrors().getCode() == 200) {
                             for (int i = 0; i < protocol.getData().getFlow().length; i++) {
-                                appDB.insertFlow(Integer.toString(protocol.getData().getFlow()[i].getId()),
+                                appDB.insertFlow(protocol.getData().getFlow()[i].getUuid(),
                                         protocol.getData().getFlow()[i].getTitle(),
                                         protocol.getData().getFlow()[i].getType());
                             }
@@ -190,7 +190,7 @@ public class Network {
                     if (protocol.getType().equals("all_flow")) {
                         if (protocol.getErrors().getCode() == 200) {
                             for (int i = 0; i < protocol.getData().getFlow().length; i++) {
-                                appDB.insertFlow(Integer.toString(protocol.getData().getFlow()[i].getId()),
+                                appDB.insertFlow(protocol.getData().getFlow()[i].getUuid(),
                                         protocol.getData().getFlow()[i].getTitle(),
                                         protocol.getData().getFlow()[i].getType());
                             }
@@ -204,9 +204,9 @@ public class Network {
                                 if (protocol.getData().getMessage()[i].getFrom_user().toString().equals(String.valueOf(getUuid()))) {
                                     own=MessageAdapter.TYPE_MSG_OUT;
                                 }
-                                appDB.insertMsg(Integer.toString(protocol.getData().getMessage()[i].getId()),
-                                        protocol.getData().getMessage()[i].getFrom_flow().toString(),
-                                        protocol.getData().getMessage()[i].getFrom_user().toString(),
+                                appDB.insertMsg(protocol.getData().getMessage()[i].getId(),
+                                        protocol.getData().getMessage()[i].getFrom_flow(),
+                                        protocol.getData().getMessage()[i].getFrom_user(),
                                         protocol.getData().getMessage()[i].getText(),
                                         protocol.getData().getMessage()[i].getTime(), own
                                 );
@@ -396,7 +396,7 @@ public class Network {
     }
 
 
-    public void sendMessage (String text, int flow_id) {
+    public void sendMessage (String text, String flow_id) {
         if (rawJSON) {
             if (socket != null && socket.isOpen()) {
 //                if (showJSON) outMessage("","Sending RAW: "+text, "");
@@ -411,7 +411,7 @@ public class Network {
             user[0].setUuid(uuid);
             Flow[] flow = new Flow[1];
             flow[0] = new Flow();
-            flow[0].setId(flow_id);
+            flow[0].setUuid(flow_id);
             Message[] message = new Message[1];
             message[0] = new Message();
             message[0].setText(text);
@@ -458,11 +458,13 @@ public class Network {
         }
     }
 
-    public void sendRequestUserInfo (long uuid) {
-        User[] user = new User[1];
+    public void sendRequestUserInfo (String uuid) {
+        User[] user = new User[2];
         user[0] = new User();
         user[0].setUuid(uuid);
         user[0].setAuth_id(auth_id);
+        user[1] = new User();
+        user[1].setUuid(uuid);
         Data data = new Data();
         data.setUser(user);
         Protocol protocol = new Protocol();
@@ -496,14 +498,14 @@ public class Network {
         }
     }
 
-    public void sendRequestAllMessages(int flow_id, int time) {
+    public void sendRequestAllMessages(String flow_id, int time) {
         User[] user = new User[1];
         user[0] = new User();
         user[0].setUuid(uuid);
         user[0].setAuth_id(auth_id);
         Flow[] flow = new Flow[1];
         flow[0] = new Flow();
-        flow[0].setId(flow_id);
+        flow[0].setUuid(flow_id);
         Data data = new Data();
         data.setUser(user);
         data.setFlow(flow);
