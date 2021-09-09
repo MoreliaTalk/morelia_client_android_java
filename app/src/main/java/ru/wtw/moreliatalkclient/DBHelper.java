@@ -44,7 +44,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private HashMap hp;
 
     public DBHelper(Context context) {
-        super(context, DATABASE_MORELIA , null, 8);
+        super(context, DATABASE_MORELIA , null, 9);
     }
 
     @Override

@@ -204,9 +204,9 @@ public class Network {
                                 if (protocol.getData().getMessage()[i].getFrom_user().toString().equals(String.valueOf(getUuid()))) {
                                     own=MessageAdapter.TYPE_MSG_OUT;
                                 }
-                                appDB.insertMsg(Integer.toString(protocol.getData().getMessage()[i].getId()),
-                                        protocol.getData().getMessage()[i].getFrom_flow().toString(),
-                                        protocol.getData().getMessage()[i].getFrom_user().toString(),
+                                appDB.insertMsg(protocol.getData().getMessage()[i].getId(),
+                                        protocol.getData().getMessage()[i].getFrom_flow(),
+                                        protocol.getData().getMessage()[i].getFrom_user(),
                                         protocol.getData().getMessage()[i].getText(),
                                         protocol.getData().getMessage()[i].getTime(), own
                                 );
